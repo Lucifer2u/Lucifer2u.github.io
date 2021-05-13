@@ -185,7 +185,7 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-05-13 22:16" pubdate>
+      <time datetime="2021-05-13 22:32" pubdate>
         2021年5月13日 晚上
       </time>
     </span>
@@ -276,11 +276,11 @@
 <h2 id="面向流和缓冲区"><a href="#面向流和缓冲区" class="headerlink" title="面向流和缓冲区"></a>面向流和缓冲区</h2><p><strong>IO</strong></p>
 <p>传统IO在传输数据时，根据输入输出的不同需要分别建立不同的链接，而且传输的数据是以流的形式在链接上进行传输的</p>
 <p>就像自来水要通过水管将自来水厂和家连接起来一样</p>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109084453.png"><img src="NIO.assets/20201109084453.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109084453.png"><img src="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109084453.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
 <p><strong>NIO</strong></p>
 <p>NIO在传输数据时，会在输入输出端之间建立<strong>通道</strong>，然后将数据放入到<strong>缓冲区</strong>中。缓冲区通过通道来传输数据</p>
 <p>这里通道就像是铁路，能够连通两个地点。缓冲区就像是火车，能够真正地进行数据的传输</p>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109085054.png"><img src="NIO.assets/20201109085054.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222459918.png" srcset="/img/loading.gif" lazyload alt="image-20210513222459918"></p>
 <h1 id="三、通道与缓冲区"><a href="#三、通道与缓冲区" class="headerlink" title="三、通道与缓冲区"></a>三、通道与缓冲区</h1><p>Java NIO系统的核心在于：**通道(Channel)和缓冲区(Buffer)**。通道表示打开到 IO 设备(例如：文件、套接字)的连接。若需要使用 NIO 系统，需要获取用于连接 IO 设备的通道以及用于容纳数据的缓冲区。然后操作缓冲区，对数据进行处理</p>
 <p>简而言之，<strong>通道负责传输，缓冲区负责存储</strong></p>
 <h1 id="四、缓冲区-Buffer"><a href="#四、缓冲区-Buffer" class="headerlink" title="四、缓冲区(Buffer)"></a>四、缓冲区(Buffer)</h1><h2 id="1、缓冲区类型"><a href="#1、缓冲区类型" class="headerlink" title="1、缓冲区类型"></a>1、缓冲区类型</h2><p>Buffer 就像一个数组，可以保存多个相同类型的数据。根据数据类型不同(<strong>boolean 除外</strong>) ，有以下Buffer 常用子类</p>
@@ -301,7 +301,7 @@
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span>[] hb;                  <span class="hljs-comment">// Non-null only for heap buffersCopy</span></code></pre></div>
 
 <p><strong>他们的继承关系如下</strong></p>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109091555.png"><img src="NIO.assets/20201109091555.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222534808.png" srcset="/img/loading.gif" lazyload alt="image-20210513222534808"></p>
 <h2 id="2、获取缓冲区"><a href="#2、获取缓冲区" class="headerlink" title="2、获取缓冲区"></a>2、获取缓冲区</h2><p>通过<strong>allocate方法</strong>可以获取一个对应缓冲区的对象，它是缓冲区类的一个静态方法</p>
 <p>例</p>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 获取一个容量大小为1024字节的字节缓冲区</span>
@@ -326,7 +326,7 @@ ByteBuffer byteBuffer = ByteBuffer.allocate(<span class="hljs-number">1024</span
 <li>put()方法可以将一个数据放入到缓冲区中。</li>
 <li>进行该操作后，postition的值会+1，指向下一个可以放入的位置。capacity = limit ，为缓冲区容量的值。</li>
 </ul>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109145709.png"><img src="NIO.assets/20201109145709.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222603127.png" srcset="/img/loading.gif" lazyload alt="image-20210513222603127"></p>
 <h4 id="flip-方法"><a href="#flip-方法" class="headerlink" title="flip()方法"></a>flip()方法</h4><ul>
 <li>flip()方法会<strong>切换对缓冲区的操作模式</strong>，由写-&gt;读 / 读-&gt;写</li>
 <li>进行该操作后<ul>
@@ -335,22 +335,22 @@ ByteBuffer byteBuffer = ByteBuffer.allocate(<span class="hljs-number">1024</span
 </ul>
 </li>
 </ul>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109145753.png"><img src="NIO.assets/20201109145753.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222630105.png" srcset="/img/loading.gif" lazyload alt="image-20210513222630105"></p>
 <h4 id="get-方法"><a href="#get-方法" class="headerlink" title="get()方法"></a>get()方法</h4><ul>
 <li>get()方法会读取缓冲区中的一个值</li>
 <li>进行该操作后，position会+1，如果超过了limit则会抛出异常</li>
 </ul>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109145822.png"><img src="NIO.assets/20201109145822.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222642585.png" srcset="/img/loading.gif" lazyload alt="image-20210513222642585"></p>
 <h4 id="rewind-方法"><a href="#rewind-方法" class="headerlink" title="rewind()方法"></a>rewind()方法</h4><ul>
 <li>该方法<strong>只能在读模式下使用</strong></li>
 <li>rewind()方法后，会恢复position、limit和capacity的值，变为进行get()前的值</li>
 </ul>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109145852.png"><img src="NIO.assets/20201109145852.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222657733.png" srcset="/img/loading.gif" lazyload alt="image-20210513222657733"></p>
 <h4 id="clean-方法"><a href="#clean-方法" class="headerlink" title="clean()方法"></a>clean()方法</h4><ul>
 <li>clean()方法会将缓冲区中的各个属性恢复为最初的状态，position = 0, capacity = limit</li>
 <li><strong>此时缓冲区的数据依然存在</strong>，处于“被遗忘”状态，下次进行写操作时会覆盖这些数据</li>
 </ul>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109145905.png"><img src="NIO.assets/20201109145905.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222714944.png" srcset="/img/loading.gif" lazyload alt="image-20210513222714944"></p>
 <h4 id="mark-和reset-方法"><a href="#mark-和reset-方法" class="headerlink" title="mark()和reset()方法"></a>mark()和reset()方法</h4><ul>
 <li>mark()方法会将postion的值保存到mark属性中</li>
 <li>reset()方法会将position的值改为mark中保存的值</li>
@@ -466,7 +466,7 @@ HeapByteBuffer(<span class="hljs-keyword">int</span> cap, <span class="hljs-keyw
 <span class="hljs-comment">    */</span>
 &#125;</code></pre></div>
 
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109151057.png"><img src="NIO.assets/20201109151057.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222737771.png" srcset="/img/loading.gif" lazyload alt="image-20210513222737771"></p>
 <p>通过非直接缓冲区，想要将数据写入到物理磁盘中，或者是从物理磁盘读取数据。<strong>都需要经过JVM和操作系统</strong>，数据在两个地址空间中传输时，会<strong>copy</strong>一份保存在对方的空间中。所以费直接缓冲区的读取效率较低</p>
 <h4 id="直接缓冲区"><a href="#直接缓冲区" class="headerlink" title="直接缓冲区"></a>直接缓冲区</h4><p><strong>只有ByteBuffer可以获得直接缓冲区</strong>，通过allocateDirect()获取的缓冲区为直接缓冲区，这些缓冲区是建立在<strong>物理内存</strong>之中的。</p>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ByteBuffer <span class="hljs-title">allocateDirect</span><span class="hljs-params">(<span class="hljs-keyword">int</span> capacity)</span> </span>&#123;
@@ -480,16 +480,16 @@ DirectByteBuffer(<span class="hljs-keyword">int</span> cap) &#123;              
     ...
 &#125;</code></pre></div>
 
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109151520.png"><img src="NIO.assets/20201109151520.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222756664.png" srcset="/img/loading.gif" lazyload alt="image-20210513222756664"></p>
 <p>直接缓冲区通过在操作系统和JVM之间创建<strong>物理内存映射文件</strong>加快缓冲区数据读/写入物理磁盘的速度。放到物理内存映射文件中的数据就不归应用程序控制了，操作系统会自动将物理内存映射文件中的数据写入到物理内存中</p>
 <h1 id="五、通道-Channel"><a href="#五、通道-Channel" class="headerlink" title="五、通道(Channel)"></a>五、通道(Channel)</h1><h2 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h2><p>Channel由java.nio.channels 包定义的。Channel 表示<strong>IO 源与目标打开的连接</strong>。Channel 类似于传统的“流”。只不过<strong>Channel 本身不能直接访问数据，Channel 只能与Buffer 进行交互</strong></p>
 <h2 id="2、图解"><a href="#2、图解" class="headerlink" title="2、图解"></a>2、图解</h2><p>应用程序进行读写操作调用函数时，<strong>底层调用的操作系统提供给用户的读写API</strong>，调用这些API时会生成对应的指令，CPU则会执行这些指令。在计算机刚出现的那段时间，<strong>所有读写请求的指令都有CPU去执行</strong>，过多的读写请求会导致CPU无法去执行其他命令，从而CPU的利用率降低</p>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109153039.png"><img src="NIO.assets/20201109153039.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222809288.png" srcset="/img/loading.gif" lazyload alt="image-20210513222809288"></p>
 <p>后来，<strong>DMA</strong>(Direct Memory Access，直接存储器访问)出现了。当IO请求传到计算机底层时，<strong>DMA会向CPU请求，让DMA去处理这些IO操作</strong>，从而可以让CPU去执行其他指令。DMA处理IO操作时，会请求获取总线的使用权。<strong>当IO请求过多时，会导致大量总线用于处理IO请求，从而降低效率</strong></p>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109153439.png"><img src="NIO.assets/20201109153439.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222817234.png" srcset="/img/loading.gif" lazyload alt="image-20210513222817234"></p>
 <p>于是便有了<strong>Channel(通道)<strong>，Channel相当于一个</strong>专门用于IO操作的独立处理器</strong>，它具有独立处理IO请求的能力，当有IO请求时，它会自行处理这些IO请求</p>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109154113.png"><img src="NIO.assets/20201109154113.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
-<h2 id="3、Java-Channel"><a href="#3、Java-Channel" class="headerlink" title="3、Java Channel"></a>3、Java Channel</h2><h4 id="常用实现类"><a href="#常用实现类" class="headerlink" title="常用实现类"></a>常用实现类</h4><p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109154803.png"><img src="NIO.assets/20201109154803.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222824224.png" srcset="/img/loading.gif" lazyload alt="image-20210513222824224"></p>
+<h2 id="3、Java-Channel"><a href="#3、Java-Channel" class="headerlink" title="3、Java Channel"></a>3、Java Channel</h2><h4 id="常用实现类"><a href="#常用实现类" class="headerlink" title="常用实现类"></a>常用实现类</h4><p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222909219.png" srcset="/img/loading.gif" lazyload alt="image-20210513222909219"></p>
 <ul>
 <li>本地文件IO<ul>
 <li>FileChannel</li>
@@ -611,7 +611,7 @@ DirectByteBuffer(<span class="hljs-keyword">int</span> cap) &#123;              
    &#125;
 &#125;</code></pre></div>
 
-<p><strong>图片读取后，被写入到了指定位置</strong><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109211055.png"><img src="NIO.assets/20201109211055.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><strong>图片读取后，被写入到了指定位置</strong><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222934130.png" srcset="/img/loading.gif" lazyload alt="image-20210513222934130"></p>
 <h4 id="open-直接缓冲区"><a href="#open-直接缓冲区" class="headerlink" title="open()+直接缓冲区"></a>open()+直接缓冲区</h4><ul>
 <li>通过open获得通道</li>
 <li>通过FileChannel.map()获取直接缓冲区</li>
@@ -644,7 +644,7 @@ DirectByteBuffer(<span class="hljs-keyword">int</span> cap) &#123;              
    &#125;
 &#125;</code></pre></div>
 
-<p><strong>运行结果，图片被创建</strong><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201109214801.png"><img src="NIO.assets/20201109214801.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><strong>运行结果，图片被创建</strong><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513222959909.png" srcset="/img/loading.gif" lazyload alt="image-20210513222959909"></p>
 <h4 id="通道间直接传输"><a href="#通道间直接传输" class="headerlink" title="通道间直接传输"></a>通道间直接传输</h4><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">channelToChannel</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
    <span class="hljs-keyword">long</span> start = System.currentTimeMillis();
    <span class="hljs-comment">// 通过open()方法来获得通道</span>
@@ -677,10 +677,10 @@ DirectByteBuffer(<span class="hljs-keyword">int</span> cap) &#123;              
 <p>直接缓冲区的读写速度虽然很快，但是会占用很多很多内存空间。如果文件过大，会使得计算机运行速度变慢</p>
 <h2 id="4、分散和聚集"><a href="#4、分散和聚集" class="headerlink" title="4、分散和聚集"></a>4、分散和聚集</h2><h4 id="分散读取"><a href="#分散读取" class="headerlink" title="分散读取"></a>分散读取</h4><p>分散读取（Scattering Reads）是指<strong>从Channel 中读取的数据“分散”到多个Buffer 中</strong></p>
 <p><strong>注意</strong>：按照缓冲区的<strong>顺序</strong>，从Channel 中读取的数据依次将 Buffer 填满</p>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201111082427.png"><img src="NIO.assets/20201111082427.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513223014213.png" srcset="/img/loading.gif" lazyload alt="image-20210513223014213"></p>
 <h4 id="聚集写入"><a href="#聚集写入" class="headerlink" title="聚集写入"></a>聚集写入</h4><p>聚集写入（Gathering Writes）是指将<strong>多个Buffer 中的数据“聚集”到Channel</strong></p>
 <p>按照缓冲区的<strong>顺序</strong>，写入position 和limit 之间的数据到Channel </p>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201111082547.png"><img src="NIO.assets/20201111082547.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513223022650.png" srcset="/img/loading.gif" lazyload alt="image-20210513223022650"></p>
 <p><strong>代码</strong></p>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Demo2</span> </span>&#123;
    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
@@ -710,8 +710,8 @@ DirectByteBuffer(<span class="hljs-keyword">int</span> cap) &#123;              
    &#125;
 &#125;</code></pre></div>
 
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201111083219.png"><img src="NIO.assets/20201111083219.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201111083230.png"><img src="NIO.assets/20201111083230.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513223043503.png" srcset="/img/loading.gif" lazyload alt="image-20210513223043503"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513223052049.png" srcset="/img/loading.gif" lazyload alt="image-20210513223052049"></p>
 <h1 id="六、非阻塞式网络通信"><a href="#六、非阻塞式网络通信" class="headerlink" title="六、非阻塞式网络通信"></a>六、非阻塞式网络通信</h1><h2 id="1、概念"><a href="#1、概念" class="headerlink" title="1、概念"></a>1、概念</h2><h4 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h4><p>双11买的快递到了，快递小哥给你打电话说马上到，麻烦在门口等一下，方便签收快递</p>
 <ul>
 <li>若为<strong>阻塞式</strong>的，你到了小区门口以后，快递小哥还没到的期间，你什么事儿也做不了</li>
@@ -720,10 +720,10 @@ DirectByteBuffer(<span class="hljs-keyword">int</span> cap) &#123;              
 <h4 id="阻塞式网络通信"><a href="#阻塞式网络通信" class="headerlink" title="阻塞式网络通信"></a>阻塞式网络通信</h4><p>传统的IO 流都是阻塞式的。也就是说，当一个线程调用read() 或write() 时，<strong>该线程被阻塞</strong>，直到有一些数据被读取或写入，该线程在此期间不能执行其他任务</p>
 <p>因此，在完成网络通信进行IO 操作时，由于线程会阻塞，所以<strong>服务器端必须为每个客户端都提供一个独立的线程进行处理</strong>，当服务器端需要处理大量客户端时，<strong>性能急剧下降</strong></p>
 <p>也就是说，服务器在等待IO准备就绪的期间，<strong>线程处于阻塞状态</strong>，若为单线程，等待期间CPU未执行任何任务，效率降低。所以需要开启多个线程，当某些线程因为等待IO准备就绪时，CPU可以去执行其他线程中的任务。但是线程的创建、切换与销毁的开销也是不小的。当大量的任务到来时，服务器性能也急剧下降。</p>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201111090126.png"><img src="NIO.assets/20201111090126.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513223107153.png" srcset="/img/loading.gif" lazyload alt="image-20210513223107153"></p>
 <h4 id="非阻塞式网络通信"><a href="#非阻塞式网络通信" class="headerlink" title="非阻塞式网络通信"></a>非阻塞式网络通信</h4><p>Java NIO 是非阻塞模式的。当线程从某通道进行读写数据时，<strong>若没有数据可用时，该线程可以进行其他任务</strong>。线程通常将非阻塞IO 的空闲时间用于在其他通道上执行IO 操作，所以<strong>单独的线程可以管理多个输入和输出通道</strong></p>
 <p>因此，NIO 可以让服务器端<strong>使用一个或有限几个线程来同时处理连接到服务器端的所有客户端</strong></p>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201112165417.png"><img src="NIO.assets/20201112165417.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513223114797.png" srcset="/img/loading.gif" lazyload alt="image-20210513223114797"></p>
 <h2 id="2、使用"><a href="#2、使用" class="headerlink" title="2、使用"></a>2、使用</h2><h4 id="阻塞式网络通信演示"><a href="#阻塞式网络通信演示" class="headerlink" title="阻塞式网络通信演示"></a>阻塞式网络通信演示</h4><div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/*</span>
 <span class="hljs-comment"> * 一、使用 NIO 完成网络通信的三个核心：</span>
 <span class="hljs-comment"> * </span>
@@ -1055,7 +1055,7 @@ DirectByteBuffer(<span class="hljs-keyword">int</span> cap) &#123;              
 &#125;</code></pre></div>
 
 <h5 id="选择器"><a href="#选择器" class="headerlink" title="选择器"></a>选择器</h5><p>选择器（Selector）是<strong>SelectableChannle</strong> 对象的多路复用器，Selector 可以同时监控多个SelectableChannel 的IO 状况，也就是说，利用Selector 可使一个单独的线程管理多个Channel。<strong>Selector 是非阻塞IO 的核心</strong></p>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201112163633.png"><img src="NIO.assets/20201112163633.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513223137934.png" srcset="/img/loading.gif" lazyload alt="image-20210513223137934"></p>
 <p><strong>选择器的创建</strong></p>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 创建一个选择器</span>
 Selector selector = Selector.open();</code></pre></div>
@@ -1066,7 +1066,7 @@ Selector selector = Selector.open();</code></pre></div>
 <li><p>Selector：即绑定哪个选择器</p>
 </li>
 <li><p>ops：监听事件类型。ops有4个值可以选择，为<strong>SelectionKey</strong>的静态属性</p>
-<p><a target="_blank" rel="noopener" href="https://nyimapicture.oss-cn-beijing.aliyuncs.com/img/20201112164022.png"><img src="NIO.assets/20201112164022.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210513223148530.png" srcset="/img/loading.gif" lazyload alt="image-20210513223148530"></p>
 </li>
 </ul>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">// 让选择器监听一种状态</span>
