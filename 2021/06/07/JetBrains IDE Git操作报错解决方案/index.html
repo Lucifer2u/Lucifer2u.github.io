@@ -18,9 +18,23 @@
   <meta name="author" content="Lucifer">
   <meta name="keywords" content="">
   
-  <title>标签 - Lucifer&#39;s Blog</title>
+  <title>JetBrains IDE Git操作报错解决方案 - Lucifer&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/monokai.min.css" />
+    
+  
+
+  
 
 
 
@@ -159,9 +173,54 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="标签">
+            <span class="h2" id="subtitle" title="JetBrains IDE Git操作报错解决方案">
               
             </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-06-07 09:41" pubdate>
+        2021年6月7日 上午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      403 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      4
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
 
             
           </div>
@@ -178,24 +237,139 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center tagcloud">
-  <a href="/tags/Git/" style="font-size: 15px; color: #bbe">Git</a> <a href="/tags/Java/" style="font-size: 30px; color: #337ab7">Java</a>
-</div>
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JetBrains IDE Git操作报错解决方案</h1>
+            
+            <div class="markdown-body">
+              <h1 id="JetBrains-IDE-Git报错解决方案"><a href="#JetBrains-IDE-Git报错解决方案" class="headerlink" title="JetBrains IDE Git报错解决方案"></a>JetBrains IDE Git报错解决方案</h1><p>在使用<code>IDEA、WebStorm、PyCharm</code>的时候，在设置Github的时候</p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210607091401404.png" srcset="/img/loading.gif" lazyload alt="image-20210607091401404"></p>
+<p>在添加Github账号的时候，或者在使用自带的版本管理插件进行Git操作的时候</p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210607091600563.png" srcset="/img/loading.gif" lazyload alt="image-20210607091600563"></p>
+<p>容易出现<code>invalid authentication data. connection reset</code>或者<code>LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443 </code>之类的报错，试过网上许多解决方案，都没有一个统一的解答</p>
+<h3 id="如果Ping不通"><a href="#如果Ping不通" class="headerlink" title="如果Ping不通"></a>如果Ping不通</h3><p>博主是使用了代理工具的，开始以为是网络的问题，但是<code>ping github.com</code>也能ping通，如果有ping不通的话，这里提供一个解决方案，利用域名解析器，看看github.com域名下映射的IP地址，这里可以去<a target="_blank" rel="noopener" href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net%E4%B8%8A%E6%9F%A5%E7%9C%8B%E8%87%AA%E5%B7%B1%E7%9A%84%E6%98%A0%E5%B0%84%E5%9C%B0%E5%9D%80">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net上查看自己的映射地址</a></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210607092335451.png" srcset="/img/loading.gif" lazyload alt="image-20210607092335451"></p>
+<p>填入到自己的Host文件配置中</p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210607092424140.png" srcset="/img/loading.gif" lazyload alt="image-20210607092424140"></p>
+<p>基本就能解决Ping的问题</p>
+<h3 id="invalid-authentication-data-connection-reset"><a href="#invalid-authentication-data-connection-reset" class="headerlink" title="invalid authentication data. connection reset"></a>invalid authentication data. connection reset</h3><p>这是由于使用了代理工具但是在IDE并不能有效的识别，先设置</p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210607092615434.png" srcset="/img/loading.gif" lazyload alt="image-20210607092615434"></p>
+<p>然后就可以发现添加账号成功</p>
+<h3 id="LibreSSL-SSL-connect-SSL-ERROR-SYSCALL-in-connection-to-github-com-443"><a href="#LibreSSL-SSL-connect-SSL-ERROR-SYSCALL-in-connection-to-github-com-443" class="headerlink" title="LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443"></a>LibreSSL SSL_connect: SSL_ERROR_SYSCALL in connection to github.com:443</h3><p>这时候虽然能够配置上Github账号，但是在项目进行Push到github的时候会容易报这个错误，这是因为使用了代理工具，在<code>~</code>目录下使用<code>vim .gitconfig</code>目录对Git进行配置，最为关键的是添加如下配置</p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210607093139972.png" srcset="/img/loading.gif" lazyload alt="image-20210607093139972"></p>
+<p>进行如下配置后，Push成功</p>
+<blockquote>
+<p>不要一上来就进行这个配置，如果先配置了这个，会在设置Github的时候报错<code>invalid authentication data. connection reset</code>，先设置好Github账号后需要Push的时候再再上此配置行</p>
+</blockquote>
 
-              </div>
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Git/">Git</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Git/">Git</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/05/13/NIO/">
+                        <span class="hidden-mobile">Java NIO</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#valine",
+          app_id: "Q8utolFFXQsi71pQY6bCltkI-gzGzoHsz",
+          app_key: "x4RAlPOpmFX9HdGyI6MLoCGn",
+          placeholder: "说点什么....",
+          path: window.location.pathname,
+          avatar: "monsterid",
+          meta: ["nick","mail","link"],
+          pageSize: "12",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: true,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -300,9 +474,13 @@
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
 
 
 
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
 
 
 
