@@ -18,9 +18,23 @@
   <meta name="author" content="Lucifer">
   <meta name="keywords" content="">
   
-  <title>分类 - Git - Lucifer&#39;s Blog</title>
+  <title>Lucifer&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/monokai.min.css" />
+    
+  
+
+  
 
 
 
@@ -159,9 +173,54 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="分类 - Git">
+            <span class="h2" id="subtitle" title="">
               
             </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-08 17:13" pubdate>
+        2021年7月8日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      343 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      4
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
 
             
           </div>
@@ -178,40 +237,136 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          >
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 1 篇文章</p>
-  <hr>
-  
-  
-    
       
-      <p class="h5">2021</p>
-    
-    <a href="/2021/06/07/JetBrains%20IDE%20Git%E6%93%8D%E4%BD%9C%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">JetBrains IDE Git操作报错解决方案</span>
-      <time style="float: right;">06-07</time>
-    </a>
-  
-</div>
 
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            <div class="markdown-body">
+              <h1 id="node-sass安装失败解决方案"><a href="#node-sass安装失败解决方案" class="headerlink" title="node-sass安装失败解决方案"></a>node-sass安装失败解决方案</h1><p>在Github上看到一个用Vue写的<a target="_blank" rel="noopener" href="https://github.com/is-liyiwei/vue-Chat-demo">仿造VX的聊天界面</a>，比较美观，想用在自己的项目中</p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210708171357360.png" srcset="/img/loading.gif" lazyload alt="image-20210708171357360"></p>
+<p>可惜<code>npm install</code>后意外发生了</p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210708171832501.png" srcset="/img/loading.gif" lazyload alt="image-20210708171832501"></p>
+<p>部署的时候报错<code>Module build failed: Error: Cannot find module &#39;node-sass&#39;</code></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210708171504322.png" srcset="/img/loading.gif" lazyload alt="image-20210708171504322"></p>
+<p>很明显是node-sass包并没有安装成功，当我以为是外网的问题，重试使用淘宝镜像安装的时候</p>
+<div class="hljs code-wrapper"><pre><code class="hljs shell">npm uninstall node-sass 
+//使用淘宝镜像安装
+npm i node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/</code></pre></div>
 
+<p>又报了其他模块无法解析的错误，很明显，还还是模块安装不完全的问题</p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210708172109790.png" srcset="/img/loading.gif" lazyload alt="image-20210708172109790"></p>
+<p>所以需要重新安装相关的模块</p>
+<div class="hljs code-wrapper"><pre><code class="hljs shell">npm uninstall sass-loader
+npm uninstall style-loader
 
+npm install sass-loader@7.3.1 --save-dev　　　 //安装7.3.1版本的sass
+npm install style-loader --save-dev // 安装style-loader</code></pre></div>
 
+<p>发现这里又报了版本不对应的错误</p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210708172411081.png" srcset="/img/loading.gif" lazyload alt="image-20210708172411081"></p>
+<p>这才恍然大悟，<strong>淘宝镜像默认下载的是最新版本的包，所以需要在下载的时候指定版本</strong></p>
+<div class="hljs code-wrapper"><pre><code class="hljs shell">npm uninstall node-sass 
+npm i node-sass@4.14.1 --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/</code></pre></div>
 
-              </div>
+<p>最终部署成功，成功解决</p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210708172544043.png" srcset="/img/loading.gif" lazyload alt="image-20210708172544043"></p>
+<p><strong>总结：</strong></p>
+<p><strong>根据报错内容，一步一步的去信息解决问题是很重要的，一次报错不可怕，能仔细观察日记解决问题才是最重要的，希望下次引以为戒</strong></p>
+
             </div>
-          </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/07/JetBrains%20IDE%20Git%E6%93%8D%E4%BD%9C%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+                        <span class="hidden-mobile">JetBrains IDE Git操作报错解决方案</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#valine",
+          app_id: "Q8utolFFXQsi71pQY6bCltkI-gzGzoHsz",
+          app_key: "x4RAlPOpmFX9HdGyI6MLoCGn",
+          placeholder: "说点什么....",
+          path: window.location.pathname,
+          avatar: "monsterid",
+          meta: ["nick","mail","link"],
+          pageSize: "12",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: true,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
         </div>
       </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
     
 
     
@@ -316,9 +471,13 @@
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
 
 
 
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
 
 
 

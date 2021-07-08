@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title></title>
+    <link href="/2021/07/08/node-sass%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+    <url>/2021/07/08/node-sass%E5%AE%89%E8%A3%85%E5%A4%B1%E8%B4%A5%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
+    
+    <content type="html"><![CDATA[<h1 id="node-sass安装失败解决方案"><a href="#node-sass安装失败解决方案" class="headerlink" title="node-sass安装失败解决方案"></a>node-sass安装失败解决方案</h1><p>在Github上看到一个用Vue写的<a href="https://github.com/is-liyiwei/vue-Chat-demo">仿造VX的聊天界面</a>，比较美观，想用在自己的项目中</p><p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210708171357360.png" alt="image-20210708171357360"></p><p>可惜<code>npm install</code>后意外发生了</p><p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210708171832501.png" alt="image-20210708171832501"></p><p>部署的时候报错<code>Module build failed: Error: Cannot find module &#39;node-sass&#39;</code></p><p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210708171504322.png" alt="image-20210708171504322"></p><p>很明显是node-sass包并没有安装成功，当我以为是外网的问题，重试使用淘宝镜像安装的时候</p><div class="hljs code-wrapper"><pre><code class="hljs shell">npm uninstall node-sass //使用淘宝镜像安装npm i node-sass --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/</code></pre></div><p>又报了其他模块无法解析的错误，很明显，还还是模块安装不完全的问题</p><p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210708172109790.png" alt="image-20210708172109790"></p><p>所以需要重新安装相关的模块</p><div class="hljs code-wrapper"><pre><code class="hljs shell">npm uninstall sass-loadernpm uninstall style-loadernpm install sass-loader@7.3.1 --save-dev　　　 //安装7.3.1版本的sassnpm install style-loader --save-dev // 安装style-loader</code></pre></div><p>发现这里又报了版本不对应的错误</p><p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210708172411081.png" alt="image-20210708172411081"></p><p>这才恍然大悟，<strong>淘宝镜像默认下载的是最新版本的包，所以需要在下载的时候指定版本</strong></p><div class="hljs code-wrapper"><pre><code class="hljs shell">npm uninstall node-sass npm i node-sass@4.14.1 --sass_binary_site=https://npm.taobao.org/mirrors/node-sass/</code></pre></div><p>最终部署成功，成功解决</p><p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210708172544043.png" alt="image-20210708172544043"></p><p><strong>总结：</strong></p><p><strong>根据报错内容，一步一步的去信息解决问题是很重要的，一次报错不可怕，能仔细观察日记解决问题才是最重要的，希望下次引以为戒</strong></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>JetBrains IDE Git操作报错解决方案</title>
     <link href="/2021/06/07/JetBrains%20IDE%20Git%E6%93%8D%E4%BD%9C%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
     <url>/2021/06/07/JetBrains%20IDE%20Git%E6%93%8D%E4%BD%9C%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</url>
@@ -13,7 +26,7 @@
     
     <categories>
       
-      <category>Git</category>
+      <category>Bug解决</category>
       
     </categories>
     
