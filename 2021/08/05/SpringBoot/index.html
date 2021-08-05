@@ -253,7 +253,7 @@
               <h1 id="SpringBoot"><a href="#SpringBoot" class="headerlink" title="SpringBoot"></a>SpringBoot</h1><blockquote>
 <p>本文整理了SpingBoot整合主流开发模块的知识，参考来自<a target="_blank" rel="noopener" href="http://www.javaboy.org/">松哥系列博客</a>，供学习</p>
 </blockquote>
-<h1 id="第一章、SpringBoot基础配置"><a href="#第一章、SpringBoot基础配置" class="headerlink" title="第一章、SpringBoot基础配置"></a>第一章、SpringBoot基础配置</h1><h2 id="1-Maven"><a href="#1-Maven" class="headerlink" title="1. Maven"></a>1. Maven</h2><p>我们刚开始学习 JavaWeb 的时候，使用 Servlet/JSP 做开发，一个接口搞一个 Servlet ，很头大，后来我们通过隐藏域或者反射等方式，可以减少 Servlet 的创建，但是依然不方便，再后来，我们引入 Struts2/SpringMVC 这一类的框架，来简化我们的开发 ，和 Servlet/JSP 相比，引入框架之后，生产力确实提高了不少，但是用久了，又发现了新的问题，即配置繁琐易出错，要做一个新项目，先搭建环境，环境搭建来搭建去，就是那几行配置，不同的项目，可能就是包不同，其他大部分的配置都是一样的，Java 总是被人诟病配置繁琐代码量巨大，这就是其中一个表现。那么怎么办？Spring Boot 应运而生，Spring Boot 主要提供了如下功能：</p>
+<h1 id="SpringBoot基础配置"><a href="#SpringBoot基础配置" class="headerlink" title="SpringBoot基础配置"></a>SpringBoot基础配置</h1><h2 id="1-Maven"><a href="#1-Maven" class="headerlink" title="1. Maven"></a>1. Maven</h2><p>我们刚开始学习 JavaWeb 的时候，使用 Servlet/JSP 做开发，一个接口搞一个 Servlet ，很头大，后来我们通过隐藏域或者反射等方式，可以减少 Servlet 的创建，但是依然不方便，再后来，我们引入 Struts2/SpringMVC 这一类的框架，来简化我们的开发 ，和 Servlet/JSP 相比，引入框架之后，生产力确实提高了不少，但是用久了，又发现了新的问题，即配置繁琐易出错，要做一个新项目，先搭建环境，环境搭建来搭建去，就是那几行配置，不同的项目，可能就是包不同，其他大部分的配置都是一样的，Java 总是被人诟病配置繁琐代码量巨大，这就是其中一个表现。那么怎么办？Spring Boot 应运而生，Spring Boot 主要提供了如下功能：</p>
 <ul>
 <li>为所有基于 Spring 的 Java 开发提供方便快捷的入门体验。</li>
 <li>开箱即用，有自己自定义的配置就是用自己的，没有就使用官方提供的默认的。</li>
@@ -928,7 +928,7 @@
 <p>首先在 properties 节点中指定了应用名称以及日志文件位置。</p>
 <p>然后通过几个不同的 RollingFile 对不同级别的日志分别处理，不同级别的日志将输出到不同的文件，并按照各自的命名方式进行压缩。</p>
 <p>这段配置比较程式化，小伙伴们可以保存下来做成 IntelliJ IDEA 模版以便日常使用。</p>
-<h1 id="第二章、SpringBoot整合视图层"><a href="#第二章、SpringBoot整合视图层" class="headerlink" title="第二章、SpringBoot整合视图层"></a>第二章、SpringBoot整合视图层</h1><h2 id="1-Thymeleaf"><a href="#1-Thymeleaf" class="headerlink" title="1. Thymeleaf"></a>1. Thymeleaf</h2><p>Thymeleaf 是新一代 Java 模板引擎，它类似于 Velocity、FreeMarker 等传统 Java 模板引擎，但是与传统 Java 模板引擎不同的是，Thymeleaf 支持 HTML 原型。</p>
+<h1 id="SpringBoot整合视图层"><a href="#SpringBoot整合视图层" class="headerlink" title="SpringBoot整合视图层"></a>SpringBoot整合视图层</h1><h2 id="1-Thymeleaf"><a href="#1-Thymeleaf" class="headerlink" title="1. Thymeleaf"></a>1. Thymeleaf</h2><p>Thymeleaf 是新一代 Java 模板引擎，它类似于 Velocity、FreeMarker 等传统 Java 模板引擎，但是与传统 Java 模板引擎不同的是，Thymeleaf 支持 HTML 原型。</p>
 <p>它既可以让前端工程师在浏览器中直接打开查看样式，也可以让后端工程师结合真实数据查看显示效果，同时，SpringBoot 提供了 Thymeleaf 自动化配置解决方案，因此在 SpringBoot 中使用 Thymeleaf 非常方便。</p>
 <p>事实上， Thymeleaf 除了展示基本的 HTML ，进行页面渲染之外，也可以作为一个 HTML 片段进行渲染，例如我们在做邮件发送时，可以使用 Thymeleaf 作为邮件发送模板。</p>
 <p>另外，由于 Thymeleaf 模板后缀为 <code>.html</code>，可以直接被浏览器打开，因此，预览时非常方便。</p>
@@ -1975,7 +1975,7 @@ $&#123;x&#125;
 <p>显示效果如下：</p>
 <p><a target="_blank" rel="noopener" href="http://img.itboyhub.com/2020/20201217214402.png"><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/20201217214402.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
 <p><strong>如果要同时使用Thymeleaf，要把Freemarker的pom依赖放在前面</strong></p>
-<h1 id="第三章、SpringBoot整合Web"><a href="#第三章、SpringBoot整合Web" class="headerlink" title="第三章、SpringBoot整合Web"></a>第三章、SpringBoot整合Web</h1><h2 id="1-SpringBoot中的JSON"><a href="#1-SpringBoot中的JSON" class="headerlink" title="1. SpringBoot中的JSON"></a>1. SpringBoot中的JSON</h2><p>具体的JSON用法可以[参考SringMVC](#11. JSON)中的介绍，这里补充几点</p>
+<h1 id="SpringBoot整合Web"><a href="#SpringBoot整合Web" class="headerlink" title="SpringBoot整合Web"></a>SpringBoot整合Web</h1><h2 id="1-SpringBoot中的JSON"><a href="#1-SpringBoot中的JSON" class="headerlink" title="1. SpringBoot中的JSON"></a>1. SpringBoot中的JSON</h2><p>具体的JSON用法可以[参考SringMVC](#11. JSON)中的介绍，这里补充几点</p>
 <h3 id="1-1-Jackson"><a href="#1-1-Jackson" class="headerlink" title="1.1 Jackson"></a>1.1 Jackson</h3><p>SpringBoot默认就有，不需要额外引入<code>pom.xml</code>的依赖</p>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">//批量忽略字段</span>
 <span class="hljs-meta">@JsonIgnoreProperties(&#123;&quot;birthday&quot;,&quot;address&quot;&#125;)</span>
@@ -3383,7 +3383,7 @@ $&#123;x&#125;
     &#125;
 &#125;</code></pre></div>
 
-<h1 id="第四章、SpringBoot整合持久层"><a href="#第四章、SpringBoot整合持久层" class="headerlink" title="第四章、SpringBoot整合持久层"></a>第四章、SpringBoot整合持久层</h1><h2 id="1-整合JDBCTemplate"><a href="#1-整合JDBCTemplate" class="headerlink" title="1. 整合JDBCTemplate"></a>1. 整合JDBCTemplate</h2><p>在Java领域，数据持久化有几个常见的方案，有Spring自带的JdbcTemplate、有MyBatis，还有JPA，在这些方案中，最简单的就是Spring自带的JdbcTemplate了，这个东西虽然没有MyBatis那么方便，但是比起最开始的Jdbc已经强了很多了，它没有MyBatis功能那么强大，当然也意味着它的使用比较简单，事实上，JdbcTemplate算是最简单的数据持久化方案</p>
+<h1 id="SpringBoot整合持久层"><a href="#SpringBoot整合持久层" class="headerlink" title="SpringBoot整合持久层"></a>SpringBoot整合持久层</h1><h2 id="1-整合JDBCTemplate"><a href="#1-整合JDBCTemplate" class="headerlink" title="1. 整合JDBCTemplate"></a>1. 整合JDBCTemplate</h2><p>在Java领域，数据持久化有几个常见的方案，有Spring自带的JdbcTemplate、有MyBatis，还有JPA，在这些方案中，最简单的就是Spring自带的JdbcTemplate了，这个东西虽然没有MyBatis那么方便，但是比起最开始的Jdbc已经强了很多了，它没有MyBatis功能那么强大，当然也意味着它的使用比较简单，事实上，JdbcTemplate算是最简单的数据持久化方案</p>
 <h3 id="1-1-基本配置"><a href="#1-1-基本配置" class="headerlink" title="1.1 基本配置"></a>1.1 基本配置</h3><p>JdbcTemplate基本用法实际上很简单，开发者在创建一个SpringBoot项目时，除了选择基本的Web依赖，再记得选上Jdbc依赖，以及数据库驱动依赖即可，如下：</p>
 <p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/1-1-20210525153228731.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>项目创建成功之后，记得添加Druid数据库连接池依赖（注意这里可以添加专门为Spring Boot打造的druid-spring-boot-starter，而不是我们一般在SSM中添加的Druid），所有添加的依赖如下：</p>
@@ -4769,7 +4769,7 @@ Iterator iterator = orders.iterator();
 &#125;</code></pre></div>
 
 <p>到此，所有的配置就算完成了，接下来就可以在Service中注入不同的UserDao，不同的UserDao操作不同的数据源。</p>
-<h1 id="第五章、SpringBoot整合NoSQL"><a href="#第五章、SpringBoot整合NoSQL" class="headerlink" title="第五章、SpringBoot整合NoSQL"></a>第五章、SpringBoot整合NoSQL</h1><h2 id="1-整合Redis"><a href="#1-整合Redis" class="headerlink" title="1. 整合Redis"></a>1. 整合Redis</h2><h3 id="1-1-创建工程"><a href="#1-1-创建工程" class="headerlink" title="1.1 创建工程"></a>1.1 创建工程</h3><p>创建工程，引入 Redis 依赖：</p>
+<h1 id="SpringBoot整合NoSQL"><a href="#SpringBoot整合NoSQL" class="headerlink" title="SpringBoot整合NoSQL"></a>SpringBoot整合NoSQL</h1><h2 id="1-整合Redis"><a href="#1-整合Redis" class="headerlink" title="1. 整合Redis"></a>1. 整合Redis</h2><h3 id="1-1-创建工程"><a href="#1-1-创建工程" class="headerlink" title="1.1 创建工程"></a>1.1 创建工程</h3><p>创建工程，引入 Redis 依赖：</p>
 <p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/13-2-20210525152434590.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>创建成功后，还需要手动引入 commos-pool2 的依赖，因此最终完整的 pom.xml 依赖如下：</p>
 <div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
@@ -5147,7 +5147,7 @@ nohup java -jar sessionshare-0.0.1-SNAPSHOT.jar --server.port=8081 &amp;</code><
 <p>我们写了一些代码，也做了一些配置，但是全都和 Spring Session 无关，配置是配置 Redis，代码就是普通的 HttpSession，和 Spring Session 没有任何关系！</p>
 <p>唯一和 Spring Session 相关的，可能就是我在一开始引入了 Spring Session 的依赖吧！</p>
 <p>如果大家没有在 SSM 架构中用过 Spring Session ，可能不太好理解我们在 Spring Boot 中使用 Spring Session 有多么方便，因为在 SSM 架构中，Spring Session 的使用要配置三个地方 ，一个是 web.xml 配置代理过滤器，然后在 Spring 容器中配置 Redis，最后再配置 Spring Session，步骤还是有些繁琐的，而 Spring Boot 中直接帮我们省去了这些繁琐的步骤！不用再去配置 Spring Session。</p>
-<h1 id="第六章、SpringBoot构建RESTful"><a href="#第六章、SpringBoot构建RESTful" class="headerlink" title="第六章、SpringBoot构建RESTful"></a>第六章、SpringBoot构建RESTful</h1><p>RESTful ，到现在相信已经没人不知道这个东西了吧！关于 RESTful 的概念，我这里就不做过多介绍了，传统的 Struts 对 RESTful 支持不够友好 ，但是 SpringMVC 对于 RESTful 提供了很好的支持，常见的相关注解有：</p>
+<h1 id="SpringBoot构建RESTful"><a href="#SpringBoot构建RESTful" class="headerlink" title="SpringBoot构建RESTful"></a>SpringBoot构建RESTful</h1><p>RESTful ，到现在相信已经没人不知道这个东西了吧！关于 RESTful 的概念，我这里就不做过多介绍了，传统的 Struts 对 RESTful 支持不够友好 ，但是 SpringMVC 对于 RESTful 提供了很好的支持，常见的相关注解有：</p>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span>
 <span class="hljs-meta">@GetMapping</span>
 <span class="hljs-meta">@PutMapping</span>
@@ -5317,7 +5317,7 @@ nohup java -jar sessionshare-0.0.1-SNAPSHOT.jar --server.port=8081 &amp;</code><
 <li>更新成功时是否返回更新记录</li>
 <li>添加成功时是否返回添加记录</li>
 </ul>
-<h1 id="第七章、SpringBoot开发者工具"><a href="#第七章、SpringBoot开发者工具" class="headerlink" title="第七章、SpringBoot开发者工具"></a>第七章、SpringBoot开发者工具</h1><h2 id="1-Devtools"><a href="#1-Devtools" class="headerlink" title="1. Devtools"></a>1. Devtools</h2><p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210524151205975.png" srcset="/img/loading.gif" lazyload alt="image-20210524151205975"></p>
+<h1 id="SpringBoot开发者工具"><a href="#SpringBoot开发者工具" class="headerlink" title="SpringBoot开发者工具"></a>SpringBoot开发者工具</h1><h2 id="1-Devtools"><a href="#1-Devtools" class="headerlink" title="1. Devtools"></a>1. Devtools</h2><p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210524151205975.png" srcset="/img/loading.gif" lazyload alt="image-20210524151205975"></p>
 <p>Spring Boot 中的热部署相信大家都用过吧，只需要添加 <code>spring-boot-devtools</code> 依赖就可以轻松实现热部署。Spring Boot 中热部署最最关键的原理就是两个不同的 classloader：</p>
 <ul>
 <li>base classloader</li>
@@ -5479,7 +5479,7 @@ nohup java -jar sessionshare-0.0.1-SNAPSHOT.jar --server.port=8081 &amp;</code><
     &#125;
 &#125;</code></pre></div>
 
-<h1 id="第八章、SpringBoot整合缓存"><a href="#第八章、SpringBoot整合缓存" class="headerlink" title="第八章、SpringBoot整合缓存"></a>第八章、SpringBoot整合缓存</h1><h2 id="1-Spring-Cache-Redis"><a href="#1-Spring-Cache-Redis" class="headerlink" title="1. Spring Cache + Redis"></a>1. Spring Cache + Redis</h2><p>经过Spring Boot的整合封装与自动化配置，在Spring Boot中整合Redis已经变得非常容易了，开发者只需要引入Spring Data Redis依赖，然后简单配下redis的基本信息，系统就会提供一个RedisTemplate供开发者使用。Spring3.1中开始引入了令人激动的Cache，在Spring Boot中，可以非常方便的使用Redis来作为Cache的实现，进而实现数据的缓存。</p>
+<h1 id="SpringBoot整合缓存"><a href="#SpringBoot整合缓存" class="headerlink" title="SpringBoot整合缓存"></a>SpringBoot整合缓存</h1><h2 id="1-Spring-Cache-Redis"><a href="#1-Spring-Cache-Redis" class="headerlink" title="1. Spring Cache + Redis"></a>1. Spring Cache + Redis</h2><p>经过Spring Boot的整合封装与自动化配置，在Spring Boot中整合Redis已经变得非常容易了，开发者只需要引入Spring Data Redis依赖，然后简单配下redis的基本信息，系统就会提供一个RedisTemplate供开发者使用。Spring3.1中开始引入了令人激动的Cache，在Spring Boot中，可以非常方便的使用Redis来作为Cache的实现，进而实现数据的缓存。</p>
 <h3 id="1-1-工程创建"><a href="#1-1-工程创建" class="headerlink" title="1.1 工程创建"></a>1.1 工程创建</h3><p>首先创建一个Spring Boot工程，注意创建的时候需要引入三个依赖，web、cache以及redis，如下图：</p>
 <p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/13-1-20210525152240902.png" srcset="/img/loading.gif" lazyload alt="img"></p>
 <p>对应的依赖内容如下：</p>
@@ -5714,7 +5714,7 @@ nohup java -jar sessionshare-0.0.1-SNAPSHOT.jar --server.port=8081 &amp;</code><
     <span class="hljs-comment">//在这里执行删除操作， 删除是去数据库中删除</span>
 &#125;</code></pre></div>
 
-<h1 id="第九章、SpringBoot安全管理"><a href="#第九章、SpringBoot安全管理" class="headerlink" title="第九章、SpringBoot安全管理"></a>第九章、SpringBoot安全管理</h1><h2 id="1-Spring-Security"><a href="#1-Spring-Security" class="headerlink" title="1. Spring Security"></a>1. Spring Security</h2><p>Spring Security 是 Spring 家族中的一个安全管理框架，实际上，在 Spring Boot 出现之前，Spring Security 就已经发展了多年了，但是使用的并不多，安全管理这个领域，一直是 Shiro 的天下。</p>
+<h1 id="SpringBoot安全管理"><a href="#SpringBoot安全管理" class="headerlink" title="SpringBoot安全管理"></a>SpringBoot安全管理</h1><h2 id="1-Spring-Security"><a href="#1-Spring-Security" class="headerlink" title="1. Spring Security"></a>1. Spring Security</h2><p>Spring Security 是 Spring 家族中的一个安全管理框架，实际上，在 Spring Boot 出现之前，Spring Security 就已经发展了多年了，但是使用的并不多，安全管理这个领域，一直是 Shiro 的天下。</p>
 <p>相对于 Shiro，在 SSM/SSH 中整合 Spring Security 都是比较麻烦的操作，所以，Spring Security 虽然功能比 Shiro 强大，但是使用反而没有 Shiro 多（Shiro 虽然功能没有 Spring Security 多，但是对于大部分项目而言，Shiro 也够用了）。</p>
 <p>自从有了 Spring Boot 之后，Spring Boot 对于 Spring Security 提供了 自动化配置方案，可以零配置使用 Spring Security。</p>
 <p>因此，一般来说，常见的安全管理技术栈的组合是这样的：</p>
@@ -7656,7 +7656,7 @@ insert  into &#96;menu_role&#96;(&#96;id&#96;,&#96;mid&#96;,&#96;rid&#96;) value
 <p>三、用途不同</p>
 <p>1、oauth2 ：允许第三方应用代表用户获得访问的权限。</p>
 <p>2、shiro：执行身份验证、授权、密码和会话管理。</p>
-<h1 id="第十章、SpringBoot与中间件"><a href="#第十章、SpringBoot与中间件" class="headerlink" title="第十章、SpringBoot与中间件"></a>第十章、SpringBoot与中间件</h1><h2 id="1-WebSocket"><a href="#1-WebSocket" class="headerlink" title="1. WebSocket"></a>1. WebSocket</h2><h3 id="1-1-引入"><a href="#1-1-引入" class="headerlink" title="1.1 引入"></a>1.1 引入</h3><p>初次接触 WebSocket 的人，都会问同样的问题：我们已经有了 HTTP 协议，为什么还需要另一个协议？它能带来什么好处？</p>
+<h1 id="SpringBoot与中间件"><a href="#SpringBoot与中间件" class="headerlink" title="SpringBoot与中间件"></a>SpringBoot与中间件</h1><h2 id="1-WebSocket"><a href="#1-WebSocket" class="headerlink" title="1. WebSocket"></a>1. WebSocket</h2><h3 id="1-1-引入"><a href="#1-1-引入" class="headerlink" title="1.1 引入"></a>1.1 引入</h3><p>初次接触 WebSocket 的人，都会问同样的问题：我们已经有了 HTTP 协议，为什么还需要另一个协议？它能带来什么好处？</p>
 <p>答案很简单，因为 HTTP 协议有一个缺陷：通信只能由客户端发起。</p>
 <p>举例来说，我们想了解今天的天气，只能是客户端向服务器发出请求，服务器返回查询结果。HTTP 协议做不到服务器主动向客户端推送信息。</p>
 <p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/bg2017051507.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
@@ -8504,7 +8504,7 @@ insert  into &#96;menu_role&#96;(&#96;id&#96;,&#96;mid&#96;,&#96;rid&#96;) value
     rabbitTemplate.send(RabbitHeaderConfig.HEADERNAME, <span class="hljs-keyword">null</span>, nameMsg);
 &#125;</code></pre></div>
 
-<h1 id="第十一章、SpringBoot企业级开发"><a href="#第十一章、SpringBoot企业级开发" class="headerlink" title="第十一章、SpringBoot企业级开发"></a>第十一章、SpringBoot企业级开发</h1><h2 id="1-邮件"><a href="#1-邮件" class="headerlink" title="1. 邮件"></a>1. 邮件</h2><h3 id="1-1-邮件协议"><a href="#1-1-邮件协议" class="headerlink" title="1.1 邮件协议"></a>1.1 邮件协议</h3><p>我们经常会听到各种各样的邮件协议，比如 SMTP、POP3、IMAP ，那么这些协议有什么作用，有什么区别？我们先来讨论一下这个问题。 </p>
+<h1 id="SpringBoot企业级开发"><a href="#SpringBoot企业级开发" class="headerlink" title="SpringBoot企业级开发"></a>SpringBoot企业级开发</h1><h2 id="1-邮件"><a href="#1-邮件" class="headerlink" title="1. 邮件"></a>1. 邮件</h2><h3 id="1-1-邮件协议"><a href="#1-1-邮件协议" class="headerlink" title="1.1 邮件协议"></a>1.1 邮件协议</h3><p>我们经常会听到各种各样的邮件协议，比如 SMTP、POP3、IMAP ，那么这些协议有什么作用，有什么区别？我们先来讨论一下这个问题。 </p>
 <p>SMTP 是一个基于 TCP/IP 的应用层协议，江湖地位有点类似于 HTTP，SMTP 服务器默认监听的端口号为 25 。看到这里，小伙伴们可能会想到既然 SMTP 协议是基于 TCP/IP 的应用层协议，那么我是不是也可以通过 Socket 发送一封邮件呢？回答是肯定的。 </p>
 <p>生活中我们投递一封邮件要经过如下几个步骤： </p>
 <ol>
@@ -8775,7 +8775,7 @@ TemplateEngine templateEngine;
     javaMailSender.send(mimeMessage);
 &#125;</code></pre></div>
 
-<h1 id="第十二章、SpringBoot应用监控"><a href="#第十二章、SpringBoot应用监控" class="headerlink" title="第十二章、SpringBoot应用监控"></a>第十二章、SpringBoot应用监控</h1><p>应用监控是我们在生产环境下一个非常重要的东西，运维人员不可能 24 小时盯着应用，应用挂了及时解决，这不现实。我们需要能够实时掌握应用的运行数据，以便提早发现问题，同时在应用挂掉的时候还能够自动报警，这样才能解放开发人员。</p>
+<h1 id="SpringBoot应用监控"><a href="#SpringBoot应用监控" class="headerlink" title="SpringBoot应用监控"></a>SpringBoot应用监控</h1><p>应用监控是我们在生产环境下一个非常重要的东西，运维人员不可能 24 小时盯着应用，应用挂了及时解决，这不现实。我们需要能够实时掌握应用的运行数据，以便提早发现问题，同时在应用挂掉的时候还能够自动报警，这样才能解放开发人员。</p>
 <p>Spring Boot 中也提供了生产级的应用监控方案，对于单体应用、微服务应用都有相应的解决方案，今天松哥就想来和大家捋一捋 Spring Boot 中的应用监控方案都有哪些。</p>
 <p>首先我们来捋一下应用监控都需要哪些东西？其实就两点：</p>
 <ul>
@@ -8984,7 +8984,7 @@ TemplateEngine templateEngine;
 <span class="hljs-comment">#状态发生变化就发</span>
 <span class="hljs-meta">spring.boot.admin.notify.mail.ignore-changes</span>=<span class="hljs-string"></span></code></pre></div>
 
-<h1 id="第十三章、SpringBoot打包发布"><a href="#第十三章、SpringBoot打包发布" class="headerlink" title="第十三章、SpringBoot打包发布"></a>第十三章、SpringBoot打包发布</h1><h2 id="1-可执行Jar"><a href="#1-可执行Jar" class="headerlink" title="1. 可执行Jar"></a>1. 可执行Jar</h2><p>Spring Boot 中默认打包成的 jar 叫做 可执行 jar，这种 jar 不同于普通的 jar，普通的 jar 不可以通过 <code>java -jar xxx.jar</code> 命令执行，普通的 <code>jar</code> 主要是被其他应用依赖，<code>Spring Boot</code> 打成的 <code>jar</code> 可以执行，但是不可以被其他的应用所依赖，即使强制依赖，也无法获取里边的类。但是可执行 jar 并不是 Spring Boot 独有的，Java 工程本身就可以打包成可执行 jar 。</p>
+<h1 id="SpringBoot打包发布"><a href="#SpringBoot打包发布" class="headerlink" title="SpringBoot打包发布"></a>SpringBoot打包发布</h1><h2 id="1-可执行Jar"><a href="#1-可执行Jar" class="headerlink" title="1. 可执行Jar"></a>1. 可执行Jar</h2><p>Spring Boot 中默认打包成的 jar 叫做 可执行 jar，这种 jar 不同于普通的 jar，普通的 jar 不可以通过 <code>java -jar xxx.jar</code> 命令执行，普通的 <code>jar</code> 主要是被其他应用依赖，<code>Spring Boot</code> 打成的 <code>jar</code> 可以执行，但是不可以被其他的应用所依赖，即使强制依赖，也无法获取里边的类。但是可执行 jar 并不是 Spring Boot 独有的，Java 工程本身就可以打包成可执行 jar 。</p>
 <p>有的小伙伴可能就有疑问了，既然同样是执行 <code>mvn package</code> 命令进行项目打包，为什么 Spring Boot 项目就打成了可执行 jar ，而普通项目则打包成了不可执行 jar 呢？</p>
 <p>这我们就不得不提 Spring Boot 项目中一个默认的插件配置 <code>spring-boot-maven-plugin</code> ，这个打包插件存在 5 个方面的功能，从插件命令就可以看出：</p>
 <p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/23-1.png" srcset="/img/loading.gif" lazyload alt="img"></p>
