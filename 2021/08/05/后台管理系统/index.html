@@ -280,9 +280,9 @@
 <p>在使用 jQuery 过程中，掺杂了大量的 DOM 操作，修改视图或者获取 value ，都需要 DOM 操作，MVVM 是一种视图和数据模型双向绑定的框架，即数据发生变化，视图会跟着变化，视图发生变化，数据模型也会跟着变化，开发者再也不需要操作 DOM 节点</p>
 <h3 id="MVC与MVVM"><a href="#MVC与MVVM" class="headerlink" title="MVC与MVVM"></a>MVC与MVVM</h3><p><strong>MVC</strong>中的<strong>M</strong>就是单纯的从网络获取回来的数据模型，<strong>V</strong>指的我们的视图界面，而<strong>C</strong>就是我们的ViewController。</p>
 <p>在其中，ViewController负责View和Model之间调度，View发生交互事件会通过target-action或者delegate方式回调给ViewController，与此同时ViewController还要承担把Model通过KVO、Notification方式传来的数据传输给View用于展示的责任。<code>随着业务越来越复杂，视图交互越复杂，导致Controller越来越臃肿，负重前行。脏活累活都它干了，到头来还一点不讨好。福报修多了的结果就是，不行了就重构你，重构不了就换掉你</code>。来一张斯坦福老头经典的MVC架构图。</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/2667543-b7db698392aeca0e.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210809000010550.png" srcset="/img/loading.gif" lazyload alt="image-20210809000010550"></p>
 <p>所以为了解决这个问题，MVVM就闪亮登场了。他把View和Contrller都放在了View层（相当于把Controller一部分逻辑抽离了出来），Model层依然是服务端返回的数据模型。<code>而ViewModel充当了一个UI适配器的角色，也就是说View中每个UI元素都应该在ViewModel找到与之对应的属性。除此之外，从Controller抽离出来的与UI有关的逻辑都放在了ViewModel中，这样就减轻了Controller的负担</code>。下面是网上经典的MVVM的架构图</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/2667543-2f70f417cd78ade5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210809000029611.png" srcset="/img/loading.gif" lazyload alt="image-20210809000029611"></p>
 <p>从以上的架构图中，我们可以很清晰的梳理出各自的分工。</p>
 <ul>
 <li><strong>View层</strong>：视图展示。包含UIView以及UIViewController，View层是可以持有ViewModel的。</li>
