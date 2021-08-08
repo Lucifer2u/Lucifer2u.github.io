@@ -297,7 +297,7 @@
 <h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p><strong>1) 有良好的交互体验</strong><br>能提升页面切换体验，用户在访问应用页面是不会频繁的去切换浏览页面，从而避免了页面的重新加载；<br><strong>2) 前后端分离开发</strong><br>单页Web应用可以和 RESTful 规约一起使用，通过 REST API 提供接口数据，并使用 Ajax 异步获取，这样有助于分离客户端和服务器端工作。更进一步，可以在客户端也可以分解为静态页面和页面交互两个部分；<br><strong>3) 减轻服务器压力</strong><br>服务器只用出数据就可以，不用管展示逻辑和页面合成，吞吐能力会提高几倍；<br><strong>4) 共用一套后端程序代码</strong><br>不用修改后端程序代码就可以同时用于 Web 界面、手机、平板等多种客户端；</p>
 <h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p><strong>1) SEO难度较高</strong><br>由于所有的内容都在一个页面中动态替换显示，所以在SEO上其有着天然的弱势，所以如果你的站点对SEO很看重，且要用单页应用，那么就做些静态页面给搜索引擎用吧；<br><strong>2) 前进、后退管理</strong><br>由于单页Web应用在一个页面中显示所有的内容，所以不能使用浏览器的前进后退功能，所有的页面切换需要自己建立堆栈管理，当然此问题也有解决方案，比如利用URI中的散列+iframe实现；<br><strong>3) 初次加载耗时多</strong><br>为实现单页Web应用功能及显示效果，需要在加载页面的时候将JavaScript、CSS统一加载，部分页面可以在需要的时候加载。所以必须对JavaScript及CSS代码进行合并压缩处理；</p>
 <p><code>本项目是后台管理系统，因为不需要搜索引擎优化，所以选用了单页面应用的技术</code></p>
-<h1 id="三、Vue的构建"><a href="#三、Vue的构建" class="headerlink" title="三、Vue的构建"></a>三、Vue的构建</h1><h3 id="安装NodeJS与npm"><a href="#安装NodeJS与npm" class="headerlink" title="安装NodeJS与npm"></a>安装NodeJS与npm</h3><p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210528161005216.png" srcset="/img/loading.gif" lazyload alt="image-20210528161005216"></p>
+<h1 id="三、Vue的构建"><a href="#三、Vue的构建" class="headerlink" title="三、Vue的构建"></a>三、Vue的构建</h1><h3 id="安装NodeJS与npm"><a href="#安装NodeJS与npm" class="headerlink" title="安装NodeJS与npm"></a>安装NodeJS与npm</h3><p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210528161005216.png" srcset="/img/loading.gif" lazyload alt="image-20210528161005216"></p>
 <h3 id="新建项目"><a href="#新建项目" class="headerlink" title="新建项目"></a>新建项目</h3><div class="hljs code-wrapper"><pre><code class="hljs shell">npm install -g vue-cli   # 只需要第一次安装时执行
 vue init webpack my-project  # 使用webpack模板创建一个vue项目
 cd my-project #进入到项目目录中
@@ -305,7 +305,7 @@ npm install  # 下载依赖（如果在项目创建的最后一步选择了自�
 npm run dev # 启动项目</code></pre></div>
 
 <h3 id="Vue-项目结构介绍"><a href="#Vue-项目结构介绍" class="headerlink" title="Vue 项目结构介绍"></a>Vue 项目结构介绍</h3><p>Vue 项目创建完成后，使用 Web Storm 打开项目，项目目录如下：</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210528162924438.png" srcset="/img/loading.gif" lazyload alt="image-20210528162924438"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210528162924438.png" srcset="/img/loading.gif" lazyload alt="image-20210528162924438"></p>
 <ul>
 <li>build 文件夹，用来存放项目构建脚本</li>
 <li>config 中存放项目的一些基本配置信息，最常用的就是端口转发</li>
@@ -316,7 +316,7 @@ npm run dev # 启动项目</code></pre></div>
 <li>package.json 中定义了项目的所有依赖，包括开发时依赖和发布时依赖</li>
 </ul>
 <p>对于开发者来说，以后 99.99% 的工作都是在 src 中完成的，src 中的文件目录如下：</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210528163055327.png" srcset="/img/loading.gif" lazyload alt="image-20210528163055327"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210528163055327.png" srcset="/img/loading.gif" lazyload alt="image-20210528163055327"></p>
 <ul>
 <li>assets 目录用来存放资产文件</li>
 <li>components 目录用来存放组件（一些可复用，非独立的页面），当然开发者也可以在 components 中直接创建完整页面。</li>
@@ -418,7 +418,7 @@ $ <span class="hljs-built_in">cd</span> vuehr
 $ npm run serve</code></pre></div>
 
 <p>整体项目变得更加简洁</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210528193634072.png" srcset="/img/loading.gif" lazyload alt="image-20210528193634072"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210528193634072.png" srcset="/img/loading.gif" lazyload alt="image-20210528193634072"></p>
 <p>至此，前端部分的准备工作已经结束，现在可以开始搭建项目</p>
 <h1 id="四、前端的搭建"><a href="#四、前端的搭建" class="headerlink" title="四、前端的搭建"></a>四、前端的搭建</h1><p><strong>安装element</strong></p>
 <div class="hljs code-wrapper"><pre><code class="hljs bash">npm i element-ui -S</code></pre></div>
@@ -792,9 +792,9 @@ Vue.use(VueRouter)
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> router</code></pre></div>
 
 <p>根据数据库中存储的menu表</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210602172047103.png" srcset="/img/loading.gif" lazyload alt="image-20210602172047103"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210602172047103.png" srcset="/img/loading.gif" lazyload alt="image-20210602172047103"></p>
 <p>可以给每个角色分配不同的menu访问权限</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210602172709842.png" srcset="/img/loading.gif" lazyload alt="image-20210602172709842"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210602172709842.png" srcset="/img/loading.gif" lazyload alt="image-20210602172709842"></p>
 <p>这样就不用去router中自己定义每个menu的名字和显示的类别，通过读取数据库，当前用户根据不同的权限去访问不同的menu，[此部分在后端搭建部分补充](# 数据库驱动Menu菜单)</p>
 <h3 id="Vuex"><a href="#Vuex" class="headerlink" title="Vuex"></a>Vuex</h3><p>下一步引入<code>Vuex</code>来做状态管理，是所有状态都放在一个公共的位置，实现状态实时转换，首先安装</p>
 <div class="hljs code-wrapper"><pre><code class="hljs shell">npm install vuex</code></pre></div>
@@ -1087,10 +1087,10 @@ proxyObj [<span class="hljs-string">&#x27;/&#x27;</span>] = &#123;
 &#125;</code></pre></div>
 
 <p><strong>登录成功</strong></p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210531134218777.png" srcset="/img/loading.gif" lazyload alt="image-20210531134218777"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210531134218777.png" srcset="/img/loading.gif" lazyload alt="image-20210531134218777"></p>
 <p>返回的是从数据库中读取到的JSON信息</p>
 <p><strong>登录失败</strong></p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210531134244306.png" srcset="/img/loading.gif" lazyload alt="image-20210531134244306"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210531134244306.png" srcset="/img/loading.gif" lazyload alt="image-20210531134244306"></p>
 <p>对应着后端配置类中的failureHandle中的处理字段，到目前为止，前后端已经对接成功</p>
 <h3 id="权限管理"><a href="#权限管理" class="headerlink" title="权限管理"></a>权限管理</h3><p>在传统的前后端不分的开发中，权限管理主要通过过滤器或者拦截器来进行（权限管理框架本身也是通过过滤器来实现功能），如果用户不具备某一个角色或者某一个权限，则无法访问某一个页面。</p>
 <p>但是在前后端分离中，页面的跳转统统交给前端去做，后端只提供数据，这种时候，权限管理不能再按照之前的思路来。</p>
@@ -1102,7 +1102,7 @@ proxyObj [<span class="hljs-string">&#x27;/&#x27;</span>] = &#123;
 <p>但是，如果用户非这样操作，进入到一个空白的页面，用户体验不好，此时，我们可以使用 Vue 中的前置路由导航守卫，来监听页面跳转，如果用户想要去一个未获授权的页面，则直接在前置路由导航守卫中将之拦截下来，重定向到登录页，或者直接就停留在当前页，不让用户跳转，也可以顺手再给用户一点点未获授权的提示信息。</p>
 <p>总而言之一句话，前端的所有操作，都是为了提高用户体验，不是为了数据安全，真正的权限校验要在后端来做，后端如果是 SSM 架构，建议使用 Shiro ，如果是 <code>Spring Boot + 微服务</code>，建议使用 <code>Spring Security</code>，本系统就是利用 Spring Security 来实现的</p>
 <h1 id="六、后端的搭建"><a href="#六、后端的搭建" class="headerlink" title="六、后端的搭建"></a>六、后端的搭建</h1><h3 id="服务器环境的搭建"><a href="#服务器环境的搭建" class="headerlink" title="服务器环境的搭建"></a>服务器环境的搭建</h3><p>创建项目，添加依赖</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210529222859839.png" srcset="/img/loading.gif" lazyload alt="image-20210529222859839"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210529222859839.png" srcset="/img/loading.gif" lazyload alt="image-20210529222859839"></p>
 <div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>druid-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
@@ -1116,14 +1116,14 @@ proxyObj [<span class="hljs-string">&#x27;/&#x27;</span>] = &#123;
 <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
 
 <h3 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h3><p>权限数据库主要包含了五张表，分别是资源表、角色表、用户表、资源角色表、用户角色表，数据库关系模型如下：</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/p274.png" srcset="/img/loading.gif" lazyload alt="p274"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/p274.png" srcset="/img/loading.gif" lazyload alt="p274"></p>
 <ul>
 <li>hr表是用户表，存放了用户的基本信息。</li>
 <li>role是角色表，name字段表示角色的英文名称，按照SpringSecurity的规范，将以<code>ROLE_</code>开始，nameZh字段表示角色的中文名称。</li>
 <li>menu表是一个资源表，该表涉及到的字段有点多，由于我的前端采用了Vue来做，因此当用户登录成功之后，系统将根据用户的角色动态加载需要的模块，所有模块的信息将保存在menu表中，menu表中的path、component、iconCls、keepAlive、requireAuth等字段都是Vue-Router中需要的字段，也就是说menu中的数据到时候会以json的形式返回给前端，再由vue动态更新router，menu中还有一个字段url，表示一个url pattern，即路径匹配规则，假设有一个路径匹配规则为<code>/admin/**</code>,那么当用户在客户端发起一个<code>/admin/user</code>的请求，将被<code>/admin/**</code>拦截到，系统再去查看这个规则对应的角色是哪些，然后再去查看该用户是否具备相应的角色，进而判断该请求是否合法</li>
 </ul>
 <p><code>共有22个表</code></p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210529225927805.png" srcset="/img/loading.gif" lazyload alt="image-20210529225927805"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210529225927805.png" srcset="/img/loading.gif" lazyload alt="image-20210529225927805"></p>
 <p>同时导入mapper和model模板文件，见项目中代码<code>model</code>和<code>mapper</code></p>
 <p>配置mapper扫描和pom文件</p>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@MapperScan(basePackages=&quot;org.lucifer.vbluciferpro.mapper&quot;)</span></code></pre></div>
@@ -1513,9 +1513,9 @@ proxyObj [<span class="hljs-string">&#x27;/&#x27;</span>] = &#123;
 &#125;</code></pre></div>
 
 <h3 id="后端接口权限设计"><a href="#后端接口权限设计" class="headerlink" title="后端接口权限设计"></a>后端接口权限设计</h3><p>根据<code>Menu</code>表中的<code>path/id/name</code>可以确定前端发过来的请求的url访问的名字以及id</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210604171529329.png" srcset="/img/loading.gif" lazyload alt="image-20210604171529329"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210604171529329.png" srcset="/img/loading.gif" lazyload alt="image-20210604171529329"></p>
 <p>然后在<code>Menu_role</code>表中可以发现那些role具有当前mid的权限rid，去检查rid是否为当前登录的角色</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210604171656534.png" srcset="/img/loading.gif" lazyload alt="image-20210604171656534"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210604171656534.png" srcset="/img/loading.gif" lazyload alt="image-20210604171656534"></p>
 <p>新增配置类</p>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
 <span class="hljs-comment"> * <span class="hljs-doctag">@author</span> lucifer</span>
@@ -4235,12 +4235,12 @@ export default &#123;
 
 <p>更多细节的代码见github中的源代码</p>
 <h2 id="模块化改造"><a href="#模块化改造" class="headerlink" title="模块化改造"></a>模块化改造</h2><p>为了方便以后的业务需求，针对原项目进行改造，变成</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210630211157577.png" srcset="/img/loading.gif" lazyload alt="image-20210630211157577"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210630211157577.png" srcset="/img/loading.gif" lazyload alt="image-20210630211157577"></p>
 <p>server里存的是目前为止的业务代码，以后会添加邮件模块，和server区分，具体的代码划分见<a target="_blank" rel="noopener" href="https://github.com/Lucifer2u/xm-luciferpro">代码</a></p>
 <h2 id="邮件服务"><a href="#邮件服务" class="headerlink" title="邮件服务"></a>邮件服务</h2><p>引入RabbitMQ后启动</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210702154401698.png" srcset="/img/loading.gif" lazyload alt="image-20210702154401698"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210702154401698.png" srcset="/img/loading.gif" lazyload alt="image-20210702154401698"></p>
 <p>新建模块</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210702160148393.png" srcset="/img/loading.gif" lazyload alt="image-20210702160148393"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210702160148393.png" srcset="/img/loading.gif" lazyload alt="image-20210702160148393"></p>
 <p>引入依赖</p>
 <div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.lucifer<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
@@ -5399,7 +5399,7 @@ data () &#123;
 <p>首先我们在服务端开启令牌校验：</p>
 <div class="hljs code-wrapper"><pre><code class="hljs awk">vi <span class="hljs-regexp">/etc/</span>fdfs/http.conf</code></pre></div>
 
-<p><a target="_blank" rel="noopener" href="http://img.itboyhub.com/2020/03/fastdfs-6.png"><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/fastdfs-6.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p><a target="_blank" rel="noopener" href="http://img.itboyhub.com/2020/03/fastdfs-6.png"><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/fastdfs-6.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
 <p>配置完成后，记得重启服务端：</p>
 <div class="hljs code-wrapper"><pre><code class="hljs jboss-cli"><span class="hljs-string">./nginx</span> -s stop
 <span class="hljs-string">./nginx</span></code></pre></div>
@@ -5576,7 +5576,7 @@ data () &#123;
 <span class="hljs-tag">&lt;/<span class="hljs-name">update</span>&gt;</span></code></pre></div>
 
 <h2 id="RabbitMQ保证邮箱发送的可靠性"><a href="#RabbitMQ保证邮箱发送的可靠性" class="headerlink" title="RabbitMQ保证邮箱发送的可靠性"></a>RabbitMQ保证邮箱发送的可靠性</h2><h3 id="消息发送-1"><a href="#消息发送-1" class="headerlink" title="消息发送"></a>消息发送</h3><p>生成表记录消息发送的日志</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210714152747045.png" srcset="/img/loading.gif" lazyload alt="image-20210714152747045"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210714152747045.png" srcset="/img/loading.gif" lazyload alt="image-20210714152747045"></p>
 <p>生成对应实体类</p>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MailSendLog</span> </span>&#123;
 
@@ -5897,7 +5897,7 @@ RabbitTemplate rabbitTemplate;</code></pre></div>
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LuciferproWebApplication</span> </span>&#123;</code></pre></div>
 
 <p>EnableCaching注解里</p>
-<p><img src="%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F.assets/image-20210716171759970.png" srcset="/img/loading.gif" lazyload alt="image-20210716171759970"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210716171759970.png" srcset="/img/loading.gif" lazyload alt="image-20210716171759970"></p>
 <p>默认使用JDK代理，如果设为true，将使用cglaib</p>
 <p><strong>引入Service</strong></p>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
