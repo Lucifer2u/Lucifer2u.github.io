@@ -183,7 +183,7 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-08-09 22:03" pubdate>
+      <time datetime="2021-08-09 22:12" pubdate>
         2021年8月9日 晚上
       </time>
     </span>
@@ -544,10 +544,10 @@
 &#125;</code></pre></div>
 
 <p>注意，在构建<code>SimpleGrantedAuthority</code>对象的时候，它没有添加任何前缀。所以表示”角色”的权限，在数据库中就带有”ROLE_”前缀了。所以<code>authorities</code>表中的视图可能是这样的。</p>
-<p><img src="https://img2018.cnblogs.com/blog/1313132/201901/1313132-20190119134521755-1100857786.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210809220537827.png" srcset="/img/loading.gif" lazyload alt="image-20210809220537827"></p>
 <p><strong>角色和权限能否分开存储？角色能不能不带”ROLE_”前缀</strong></p>
 <p>当然可以分开存储，你可以定义两张表，一张存角色，一张存权限。但是你自定义<code>UserDetailsService</code>的时候，需要保证把这两张表的数据都取出来，放到<code>UserDails</code>的权限集合中。当然你数据库中存储的角色也可以不带”ROLE_”前缀，就像这样。</p>
-<p><img src="https://img2018.cnblogs.com/blog/1313132/201901/1313132-20190119133239244-1352677896.png" srcset="/img/loading.gif" lazyload alt="img"> <img src="https://img2018.cnblogs.com/blog/1313132/201901/1313132-20190119133256601-1567591650.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210809220551920.png" srcset="/img/loading.gif" lazyload alt="image-20210809220551920"></p>
 <p>但是前面说到了，Security才不管你是角色，还是权限。它只比对字符串。</p>
 <p>比如它有个表达式hasRole(“ADMIN”)。那它实际上查询的是用户权限集合中是否存在字符串”ROLE_ADMIN”。如果你从角色表中取出用户所拥有的角色时不加上”ROLE_”前缀，那验证的时候就匹配不上了。</p>
 <p>所以角色信息存储的时候可以没有”ROLE_”前缀，但是包装成<code>GrantedAuthority</code>对象的时候必须要有。</p>
@@ -1200,12 +1200,13 @@ loginFilter.setFilterProcessesUrl(<span class="hljs-string">&quot;/doLogin&quot;
 </blockquote>
 <h4 id="从过滤器开始"><a href="#从过滤器开始" class="headerlink" title="从过滤器开始"></a>从过滤器开始</h4><p>Spring Security 中一共提供了 32 个过滤器，其中默认使用的有 15 个，</p>
 <p>在一个 Web 项目中，请求流程大概如下图所示：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/GvtDGKK4uYmU0fOWpzp1W2XSC2hmrqvbic8qEpjYRPj5AUyzwBDsIBMdmG7g0dDnMe0tcxo1m26bIuefHy33RBQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210809220745044.png" srcset="/img/loading.gif" lazyload alt="image-20210809220745044" style="zoom:50%;" />
+
 <p>请求从客户端发起（例如浏览器），然后穿过层层 Filter，最终来到 Servlet 上，被 Servlet 所处理。</p>
 <p>那么，Spring Security 中默认的 15 个过滤器就是这样嵌套在 Client 和 Servlet 之间吗？</p>
 <p>不是的！</p>
 <p>上图中的 Filter 我们可以称之为 Web Filter，Spring Security 中的 Filter 我们可以称之为 Security Filter，它们之间的关系如下图：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/GvtDGKK4uYmU0fOWpzp1W2XSC2hmrqvb8E7icia2jQIuIywaOzrCBRgfJM6CxpMk0PvSFM0Pib98PtRQicR5kKmfGw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210809220801972.png" srcset="/img/loading.gif" lazyload alt="image-20210809220801972"></p>
 <p>可以看到，Spring Security Filter 并不是直接嵌入到 Web Filter 中的，而是通过 <code>FilterChainProxy</code> 来统一管理 Spring Security Filter，<code>FilterChainProxy</code> 本身则通过 Spring 提供的 <code>DelegatingFilterProxy </code>代理过滤器嵌入到 Web Filter 之中。</p>
 <blockquote>
 <p>DelegatingFilterProxy 很多小伙伴应该比较熟悉，在 Spring 中手工整合 Spring Session、Shiro 等工具时都离不开它，现在用了 Spring Boot，很多事情 Spring Boot 帮我们做了，所以有时候会感觉 DelegatingFilterProxy 的存在感有所降低，实际上它一直都在。</p>
@@ -1224,7 +1225,7 @@ loginFilter.setFilterProcessesUrl(<span class="hljs-string">&quot;/doLogin&quot;
 
 <p>这样的配置相信大家都见过，但是这并不是多个过滤器链，这是一个过滤器链。因为不管是 <code>/admin/**</code> 还是 <code>/user/**</code> ，走过的过滤器都是一样的，只是不同的路径判断条件不一样而已。</p>
 <p>如果系统存在多个过滤器链，多个过滤器链会在 FilterChainProxy 中进行划分，如下图：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/GvtDGKK4uYmU0fOWpzp1W2XSC2hmrqvbGSh4xK2bjOiaVmf0jjCAx1diaaicU2PSgibDFUmyYkSFVR0gTDiaaV1gplw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210809220817060.png" srcset="/img/loading.gif" lazyload alt="image-20210809220817060"></p>
 <p>可以看到，当请求到达 <code>FilterChainProxy</code> 之后，<code>FilterChainProxy</code> 会根据请求的路径，将请求转发到不同的 Spring Security Filters 上面去，不同的 Spring Security Filters 对应了不同的过滤器，也就是不同的请求将经过不同的过滤器。</p>
 <h4 id="回到问题"><a href="#回到问题" class="headerlink" title="回到问题"></a>回到问题</h4><p>最后，我们在回到一开始的问题。</p>
 <p>首先，<code>http.authorizeRequests()</code> 配置并非总在第一行出现，如果只有一个过滤器链，他总是在第一行出现，表示该过滤器链的拦截规则是 <code>/**</code>（<strong>请求只有先被过滤器链拦截下来，接下来才会进入到不同的 Security Filters 中进行处理</strong>），如果存在多个过滤器链，就不一定了。</p>
@@ -1278,7 +1279,7 @@ loginFilter.setFilterProcessesUrl(<span class="hljs-string">&quot;/doLogin&quot;
     <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception</span></code></pre></div>
 
 <p>首先我们来看下 HttpSecurity 的继承关系图：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/GvtDGKK4uYlT1o29Vw0VXFu2LHloBn8fmMrBKicXrYnL7mtIMFVSWphW3EsUuB7bNzBIjyWvC9IsBWia4a1qtIoA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210809220933162.png" srcset="/img/loading.gif" lazyload alt="image-20210809220933162"></p>
 <p>可以看到，<code>HttpSecurity</code> 继承自 <code>AbstractConfiguredSecurityBuilder</code>，同时实现了 <code>SecurityBuilder </code>和 <code>HttpSecurityBuilder</code> 两个接口。</p>
 <p>我们来看下 <code>HttpSecurity</code> 的定义：</p>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HttpSecurity</span> <span class="hljs-keyword">extends</span></span>
@@ -1525,7 +1526,7 @@ loginFilter.setFilterProcessesUrl(<span class="hljs-string">&quot;/doLogin&quot;
 </ul>
 <p>考虑到 LDAP 现在使用很少，所以这里我来和大家重点介绍下前两个。</p>
 <h5 id="UserDetailsAwareConfigurer"><a href="#UserDetailsAwareConfigurer" class="headerlink" title="UserDetailsAwareConfigurer"></a>UserDetailsAwareConfigurer</h5><p>这个配置类看名字大概就知道这是用来配置用户类的。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/GvtDGKK4uYm5Ze1kwUB8NUialibnd0QQHSw9MHbic1EJMTeY2UWyPqbWa3Uc3Add3unNEib8dl6FWy8T40ndYyWNIQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210809221022916.png" srcset="/img/loading.gif" lazyload alt="image-20210809221022916"></p>
 <blockquote>
 <p><strong>AbstractDaoAuthenticationConfigurer</strong></p>
 <p>AbstractDaoAuthenticationConfigurer 中所做的事情比较简单，主要是构造了一个默认的 DaoAuthenticationProvider，并为其配置 PasswordEncoder 和 UserDetailsService。</p>
@@ -1542,7 +1543,7 @@ loginFilter.setFilterProcessesUrl(<span class="hljs-string">&quot;/doLogin&quot;
 <p>DaoAuthenticationConfigurer 继承自 AbstractDaoAuthenticationConfigurer，只是在构造方法中修改了一下 userDetailsService 而已。</p>
 </blockquote>
 <h5 id="⚠️AbstractHttpConfigurer"><a href="#⚠️AbstractHttpConfigurer" class="headerlink" title="⚠️AbstractHttpConfigurer"></a>⚠️AbstractHttpConfigurer</h5><p><code>AbstractHttpConfigurer </code>这一派中的东西非常多，我们所有的过滤器配置，都是它的子类，我们来看下都有哪些类？</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/GvtDGKK4uYm5Ze1kwUB8NUialibnd0QQHSTTGWmXw2vu5ck0ddNXtQRjoZmpDIfibMKLsxlLMYBHic9oePmJwBAw8Q/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210809221037144.png" srcset="/img/loading.gif" lazyload alt="image-20210809221037144"></p>
 <p><code>AbstractHttpConfigurer</code> 继承自 <code>SecurityConfigurerAdapter</code>，并增加了两个方法，disable 和 withObjectPostProcessor：</p>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AbstractHttpConfigurer</span>&lt;<span class="hljs-title">T</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AbstractHttpConfigurer</span>&lt;<span class="hljs-title">T</span>, <span class="hljs-title">B</span>&gt;, <span class="hljs-title">B</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HttpSecurityBuilder</span>&lt;<span class="hljs-title">B</span>&gt;&gt;</span>
 <span class="hljs-class">  <span class="hljs-keyword">extends</span> <span class="hljs-title">SecurityConfigurerAdapter</span>&lt;<span class="hljs-title">DefaultSecurityFilterChain</span>, <span class="hljs-title">B</span>&gt; </span>&#123;
@@ -1627,7 +1628,7 @@ loginFilter.setFilterProcessesUrl(<span class="hljs-string">&quot;/doLogin&quot;
 <h5 id="⚠️FormLoginConfigurer"><a href="#⚠️FormLoginConfigurer" class="headerlink" title="⚠️FormLoginConfigurer"></a>⚠️FormLoginConfigurer</h5><p><code>FormLoginConfigurer</code> 在定义是，明确了<code> AbstractAuthenticationFilterConfigurer</code> 中的泛型是 <code>UsernamePasswordAuthenticationFilter</code>，也就是我们这里最终要配置的过滤是 <code>UsernamePasswordAuthenticationFilter</code></p>
 <p>FormLoginConfigurer 重写了 init 方法，配置了一下默认的登录页面。其他的基本上都是从父类来的，未做太多改变。</p>
 <p>另外我们日常配置的很多东西也是来自这里：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/GvtDGKK4uYm5Ze1kwUB8NUialibnd0QQHSgFYaGRLVpaLiaNSibf8iazhtiatKgOQWeSNLGFgZUdR702kkeftQcOy4UA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210809221049974.png" srcset="/img/loading.gif" lazyload alt="image-20210809221049974"></p>
 <p>这就是 <code>FormLoginConfigurer</code> 这个配置类，<code>FormLoginConfigurer</code> 对应的过滤器是 <code>UsernamePasswordAuthenticationFilter</code>，可以自行分析其他的 xxxConfigurer，每一个 xxxConfigurer 都对应了一个 不同的 Filter。</p>
 <h4 id="GlobalAuthenticationConfigurerAdapter"><a href="#GlobalAuthenticationConfigurerAdapter" class="headerlink" title="GlobalAuthenticationConfigurerAdapter"></a>GlobalAuthenticationConfigurerAdapter</h4><p><code>GlobalAuthenticationConfigurerAdapter</code> 看名字就知道是一个跟全局配置有关的东西，它本身实现了 <code>SecurityConfigurerAdapter</code> 接口，但是并未对方法做具体的实现，只是将泛型具体化了：</p>
 <div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Order(100)</span>
