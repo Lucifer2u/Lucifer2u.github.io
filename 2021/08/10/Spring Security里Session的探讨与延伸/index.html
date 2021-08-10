@@ -1,0 +1,1303 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/bat.png">
+  <link rel="icon" href="/img/bat.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Lucifer">
+  <meta name="keywords" content="">
+  
+  <title>Spring Security里Session的探讨与延伸 - Lucifer&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.6.0/styles/monokai.min.css" />
+    
+  
+
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"lucifer2u.github.io","root":"/","version":"1.8.10","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":false,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":"Q8utolFFXQsi71pQY6bCltkI-gzGzoHsz","app_key":"x4RAlPOpmFX9HdGyI6MLoCGn","server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 80vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lucifer</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/Flower.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Spring Security里Session的探讨与延伸">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-08-10 16:03" pubdate>
+        2021年8月10日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      109
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- LeanCloud 统计文章PV -->
+      <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="leancloud-page-views"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="iconfont icon-arrowdown"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Spring Security里Session的探讨与延伸</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Spring-Security里Session的探讨与延伸"><a href="#Spring-Security里Session的探讨与延伸" class="headerlink" title="Spring Security里Session的探讨与延伸"></a>Spring Security里Session的探讨与延伸</h1><h2 id="✍️问题的引入"><a href="#✍️问题的引入" class="headerlink" title="✍️问题的引入"></a>✍️问题的引入</h2><p>在上文中，我们简单分析了一个基于RBAC模型的Spring Security的设计思路，通过配置，我们的确登陆成功了，但是有没有想过一个问题，你在服务端的安全管理使用了 Spring Security，用户登录成功之后，<strong>Spring Security 帮你把用户信息保存在 Session 里，但是具体保存在哪里</strong>，要是不深究你可能就不知道， 这带来了一个问题，<strong>如果用户在前端操作修改了当前用户信息，在不重新登录的情况下，如何获取到最新的用户信息？</strong></p>
+<p>这也是一直困扰我的问题，我是通过阅读源码发现了关键的一步，并利用这个Key去实现了额外的功能，这个我们到时候再分析。</p>
+<h2 id="🔫又是Authentication"><a href="#🔫又是Authentication" class="headerlink" title="🔫又是Authentication"></a>🔫又是Authentication</h2><p>在 Spring Security 中有一个非常重要的对象叫做 <code>Authentication</code>，我们可以在任何地方注入 <code>Authentication</code> 进而获取到当前登录用户信息，<code>Authentication</code> 本身是一个接口，它有很多实现类：</p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210809222725161.png" srcset="/img/loading.gif" lazyload alt="image-20210809222725161"></p>
+<p>在这众多的实现类中，我们最常用的就是<code>UsernamePasswordAuthenticationToken</code>了，但是当我们打开这个类的源码后，却发现这个类平平无奇，他只有两个属性、两个构造方法以及若干个 get/set 方法；当然，他还有更多属性在它的父类上。</p>
+<p>但是从它仅有的这两个属性中，我们也能大致看出，这个类就保存了我们登录用户的基本信息。</p>
+<p><img src="https://luciferfigurebed.oss-cn-chengdu.aliyuncs.com/uPic/image-20210809222813938.png" srcset="/img/loading.gif" lazyload alt="image-20210809222813938"></p>
+<p>那么我们的登录信息是如何存到这两个对象中的？这就要来梳理一下登录流程了。</p>
+<h2 id="⏳登录流程"><a href="#⏳登录流程" class="headerlink" title="⏳登录流程"></a>⏳登录流程</h2><p>在 Spring Security 中，认证与授权的相关校验都是在一系列的过滤器链中完成的，在这一系列的过滤器链中，和认证相关的过滤器就是 <code>UsernamePasswordAuthenticationFilter</code>，篇幅问题，我这里列出来该类中几个重要方法：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UsernamePasswordAuthenticationFilter</span> <span class="hljs-keyword">extends</span></span>
+<span class="hljs-class">		<span class="hljs-title">AbstractAuthenticationProcessingFilter</span> </span>&#123;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">UsernamePasswordAuthenticationFilter</span><span class="hljs-params">()</span> </span>&#123;
+		<span class="hljs-keyword">super</span>(<span class="hljs-keyword">new</span> AntPathRequestMatcher(<span class="hljs-string">&quot;/login&quot;</span>, <span class="hljs-string">&quot;POST&quot;</span>));
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> Authentication <span class="hljs-title">attemptAuthentication</span><span class="hljs-params">(HttpServletRequest request,</span></span>
+<span class="hljs-function"><span class="hljs-params">			HttpServletResponse response)</span> <span class="hljs-keyword">throws</span> AuthenticationException </span>&#123;
+		String username = obtainUsername(request);
+		String password = obtainPassword(request);
+		UsernamePasswordAuthenticationToken authRequest = <span class="hljs-keyword">new</span> UsernamePasswordAuthenticationToken(
+				username, password);
+		setDetails(request, authRequest);
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getAuthenticationManager().authenticate(authRequest);
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">protected</span> String <span class="hljs-title">obtainPassword</span><span class="hljs-params">(HttpServletRequest request)</span> </span>&#123;
+		<span class="hljs-keyword">return</span> request.getParameter(passwordParameter);
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">protected</span> String <span class="hljs-title">obtainUsername</span><span class="hljs-params">(HttpServletRequest request)</span> </span>&#123;
+		<span class="hljs-keyword">return</span> request.getParameter(usernameParameter);
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setDetails</span><span class="hljs-params">(HttpServletRequest request,</span></span>
+<span class="hljs-function"><span class="hljs-params">			UsernamePasswordAuthenticationToken authRequest)</span> </span>&#123;
+		authRequest.setDetails(authenticationDetailsSource.buildDetails(request));
+	&#125;
+&#125;</code></pre></div>
+
+<p>根据这段源码我们可以看出：</p>
+<ol>
+<li>首先通过 <code>obtainUsername</code> 和 <code>obtainPassword</code> 方法提取出请求里边的用户名/密码出来，提取方式就是<code> request.getParameter</code> ，这也是为什么 Spring Security 中默认的表单登录要通过 key/value 的形式传递参数，而不能传递 JSON 参数，如果像传递 JSON 参数，修改这里的逻辑即可（参考RBAC的实现）。</li>
+<li>获取到请求里传递来的用户名/密码之后，接下来就构造一个 <code>UsernamePasswordAuthenticationToken</code> 对象，传入 username 和 password，username 对应了 <code>UsernamePasswordAuthenticationToken</code> 中的 <code>principal</code> 属性，而 password 则对应了它的 <code>credentials</code> 属性。</li>
+<li>接下来 setDetails 方法给 details 属性赋值，<code>UsernamePasswordAuthenticationToken</code> 本身是没有 details 属性的，这个属性在它的父类 <code>AbstractAuthenticationToken</code> 中。details 是一个对象，这个对象里边放的是 <code>WebAuthenticationDetails</code> 实例，该实例主要描述了两个信息，请求的 <code>remoteAddress</code> 以及请求的 <code>sessionId</code>。</li>
+<li>最后一步，就是调用 <code>authenticate</code> 方法去做校验了。</li>
+</ol>
+<p><strong>从这段源码中，大家可以看出来请求的各种信息基本上都找到了自己的位置，找到了位置，这就方便我们未来去获取了。</strong></p>
+<p>接下来我们再来看请求的具体校验操作。</p>
+<p>在前面的<code>attemptAuthentication</code>方法中，该方法的最后一步开始做校验，校验操作首先要获取到一个<code> AuthenticationManager</code>，这里拿到的是 <code>ProviderManager</code> ，所以接下来我们就进入到<code>ProviderManager</code>的<code>authenticate</code>方法中，当然这个方法也比较长，我这里仅仅摘列出来几个重要的地方：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> Authentication <span class="hljs-title">authenticate</span><span class="hljs-params">(Authentication authentication)</span></span>
+<span class="hljs-function">		<span class="hljs-keyword">throws</span> AuthenticationException </span>&#123;
+	Class&lt;? extends Authentication&gt; toTest = authentication.getClass();
+	<span class="hljs-keyword">for</span> (AuthenticationProvider provider : getProviders()) &#123;
+		<span class="hljs-keyword">if</span> (!provider.supports(toTest)) &#123;
+			<span class="hljs-keyword">continue</span>;
+		&#125;
+		result = provider.authenticate(authentication);
+		<span class="hljs-keyword">if</span> (result != <span class="hljs-keyword">null</span>) &#123;
+			copyDetails(authentication, result);
+			<span class="hljs-keyword">break</span>;
+		&#125;
+	&#125;
+	<span class="hljs-keyword">if</span> (result == <span class="hljs-keyword">null</span> &amp;&amp; parent != <span class="hljs-keyword">null</span>) &#123;
+		result = parentResult = parent.authenticate(authentication);
+	&#125;
+	<span class="hljs-keyword">if</span> (result != <span class="hljs-keyword">null</span>) &#123;
+		<span class="hljs-keyword">if</span> (eraseCredentialsAfterAuthentication
+				&amp;&amp; (result <span class="hljs-keyword">instanceof</span> CredentialsContainer)) &#123;
+			((CredentialsContainer) result).eraseCredentials();
+		&#125;
+		<span class="hljs-keyword">if</span> (parentResult == <span class="hljs-keyword">null</span>) &#123;
+			eventPublisher.publishAuthenticationSuccess(result);
+		&#125;
+		<span class="hljs-keyword">return</span> result;
+	&#125;
+	<span class="hljs-keyword">throw</span> lastException;
+&#125;</code></pre></div>
+
+<p><strong>这个方法就比较魔幻了，因为几乎关于认证的重要逻辑都将在这里完成：</strong></p>
+<ol>
+<li>首先获取 <code>authentication </code>的 Class，判断当前 <code>provider</code> 是否支持该 <code>authentication</code></li>
+<li>如果支持，则调用 <code>provider</code> 的 <code>authenticate</code> 方法开始做校验，校验完成后，会返回一个新的 <code>Authentication</code>。一会来和大家捋这个方法的具体逻辑。</li>
+<li>这里的 <code>provider</code> 可能有多个，如果 <code>provider </code>的 <code>authenticate</code> 方法没能正常返回一个 <code>Authentication</code>，则调用 <code>provider</code> 的 <code>parent</code> 的 <code>authenticate </code>方法继续校验。</li>
+<li><code>copyDetails</code> 方法则用来把旧的 Token 的 details 属性拷贝到新的 Token 中来。</li>
+<li>接下来会调用 <code>eraseCredentials</code> 方法擦除凭证信息，也就是你的密码，这个擦除方法比较简单，就是将 Token 中的 <code>credentials</code> 属性置空。</li>
+<li>最后通过 <code>publishAuthenticationSuccess</code> 方法将登录成功的事件广播出去。</li>
+</ol>
+<p>大致的流程，就是上面这样，在 for 循环中，第一次拿到的 provider 是一个 <code>AnonymousAuthenticationProvider</code>，这个 provider 压根就不支持 <code>UsernamePasswordAuthenticationToken</code>，也就是会直接在 <code>provider.supports</code> 方法中返回 false，结束 for 循环，然后会进入到下一个 if 中，直接调用 parent 的 authenticate 方法进行校验。</p>
+<p>而 parent 就是 <code>ProviderManager</code>，所以会再次回到这个 <code>authenticate</code> 方法中。再次回到 <code>authenticate</code> 方法中，provider 也变成了 <code>DaoAuthenticationProvider</code>，这个 provider 是支持 <code>UsernamePasswordAuthenticationToken</code> 的，所以会顺利进入到该类的 <code>authenticate</code> 方法去执行，而 <code>DaoAuthenticationProvider</code> 继承自 <code>AbstractUserDetailsAuthenticationProvider</code> 并且没有重写 <code>authenticate</code> 方法，所以 我们最终来到 <code>AbstractUserDetailsAuthenticationProvider#authenticate </code>方法中：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> Authentication <span class="hljs-title">authenticate</span><span class="hljs-params">(Authentication authentication)</span></span>
+<span class="hljs-function">		<span class="hljs-keyword">throws</span> AuthenticationException </span>&#123;
+	String username = (authentication.getPrincipal() == <span class="hljs-keyword">null</span>) ? <span class="hljs-string">&quot;NONE_PROVIDED&quot;</span>
+			: authentication.getName();
+	user = retrieveUser(username,(UsernamePasswordAuthenticationToken) authentication);
+	preAuthenticationChecks.check(user);
+	additionalAuthenticationChecks(user,(UsernamePasswordAuthenticationToken) authentication);
+	postAuthenticationChecks.check(user);
+	Object principalToReturn = user;
+	<span class="hljs-keyword">if</span> (forcePrincipalAsString) &#123;
+		principalToReturn = user.getUsername();
+	&#125;
+	<span class="hljs-keyword">return</span> createSuccessAuthentication(principalToReturn, authentication, user);
+&#125;</code></pre></div>
+
+<p>这里的逻辑就比较简单了：</p>
+<ol>
+<li>首先从 <code>Authentication</code> 提取出登录用户名。</li>
+<li>然后通过拿着 username 去调用 <code>retrieveUser </code>方法去获取当前用户对象，这一步会调用我们自己在登录时候的写的<code>loadUserByUsername</code>方法，所以这里返回的 user 其实就是你的登录对象，可以参考<a target="_blank" rel="noopener" href="https://github.com/Lucifer2u/xm-luciferpro/blob/master/luciferpro-server/luciferpro-service/src/main/java/org/lucifer/vbluciferpro/service/HrService.java">我github中</a>的29行</li>
+<li>接下来调用 <code>preAuthenticationChecks.check</code> 方法去检验 user 中的各个账户状态属性是否正常，例如账户是否被禁用、账户是否被锁定、账户是否过期等等。</li>
+<li><code>additionalAuthenticationChecks</code> 方法则是做密码比对的，好多人好奇 Spring Security 的密码加密之后，是如何进行比较的，看这里就懂了，因为比较的逻辑很简单，我这里就不贴代码出来了。</li>
+<li>最后在 <code>postAuthenticationChecks.check</code> 方法中检查密码是否过期。</li>
+<li>接下来有一个 <code>forcePrincipalAsString </code>属性，这个是是否强制将<code> Authentication</code> 中的 principal 属性设置为字符串，这个属性我们一开始在<code>UsernamePasswordAuthenticationFilter</code>类中其实就是设置为字符串的（即 username），但是默认情况下，当用户登录成功之后， 这个属性的值就变成当前用户这个对象了。之所以会这样，就是因为 forcePrincipalAsString 默认为 false，不过这块其实不用改，就用 false，这样在后期获取当前用户信息的时候反而方便很多。</li>
+<li>最后，通过<code> createSuccessAuthentication</code> 方法构建一个新的 <code>UsernamePasswordAuthenticationToken</code></li>
+</ol>
+<p>好了，那么登录的校验流程现在就基本和大家捋了一遍了。那么接下来还有一个问题，登录的用户信息我们去哪里查找？</p>
+<h2 id="⚙️用户信息保存"><a href="#⚙️用户信息保存" class="headerlink" title="⚙️用户信息保存"></a>⚙️用户信息保存</h2><p>要去找登录的用户信息，我们得先来解决一个问题，就是上面我们说了这么多，这一切是从哪里开始被触发的？</p>
+<p>我们来到 <code>UsernamePasswordAuthenticationFilter</code> 的父类 <code>AbstractAuthenticationProcessingFilter</code> 中，这个类我们经常会见到，因为很多时候当我们想要在 Spring Security <a href="https://lucifer2u.github.io/2021/08/09/%E6%B5%85%E8%B0%88Spring%20Security%E5%AE%9E%E7%8E%B0RBAC%E6%A8%A1%E5%9E%8B/#%E5%AE%9E%E7%8E%B0JSON%E6%A0%BC%E5%BC%8F%E7%99%BB%E9%99%86">自定义一个登录验证码或者将登录参数改为 JSON</a> 的时候，我们都需自定义过滤器继承自 <code>AbstractAuthenticationProcessingFilter</code> ，毫无疑问，<code>UsernamePasswordAuthenticationFilter#attemptAuthentication</code> 方法就是在 <code>AbstractAuthenticationProcessingFilter</code> 类的 doFilter 方法中被触发的：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doFilter</span><span class="hljs-params">(ServletRequest req, ServletResponse res, FilterChain chain)</span></span>
+<span class="hljs-function">		<span class="hljs-keyword">throws</span> IOException, ServletException </span>&#123;
+	HttpServletRequest request = (HttpServletRequest) req;
+	HttpServletResponse response = (HttpServletResponse) res;
+	Authentication authResult;
+	<span class="hljs-keyword">try</span> &#123;
+		authResult = attemptAuthentication(request, response);
+		<span class="hljs-keyword">if</span> (authResult == <span class="hljs-keyword">null</span>) &#123;
+			<span class="hljs-keyword">return</span>;
+		&#125;
+		sessionStrategy.onAuthentication(authResult, request, response);
+	&#125;
+	<span class="hljs-keyword">catch</span> (InternalAuthenticationServiceException failed) &#123;
+		unsuccessfulAuthentication(request, response, failed);
+		<span class="hljs-keyword">return</span>;
+	&#125;
+	<span class="hljs-keyword">catch</span> (AuthenticationException failed) &#123;
+		unsuccessfulAuthentication(request, response, failed);
+		<span class="hljs-keyword">return</span>;
+	&#125;
+	<span class="hljs-keyword">if</span> (continueChainBeforeSuccessfulAuthentication) &#123;
+		chain.doFilter(request, response);
+	&#125;
+	successfulAuthentication(request, response, chain, authResult);
+&#125;</code></pre></div>
+
+<p>从上面的代码中，我们可以看到，当 <code>attemptAuthentication</code> 方法被调用时，实际上就是触发了 <code>UsernamePasswordAuthenticationFilter#attemptAuthentication</code> 方法，当登录抛出异常的时候，<code>unsuccessfulAuthentication</code> 方法会被调用，而当登录成功的时候，<code>successfulAuthentication</code> 方法则会被调用，那我们就来看一看 <code>successfulAuthentication</code> 方法：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">successfulAuthentication</span><span class="hljs-params">(HttpServletRequest request,</span></span>
+<span class="hljs-function"><span class="hljs-params">		HttpServletResponse response, FilterChain chain, Authentication authResult)</span></span>
+<span class="hljs-function">		<span class="hljs-keyword">throws</span> IOException, ServletException </span>&#123;
+  <span class="hljs-comment">//本文问题的key</span>
+	SecurityContextHolder.getContext().setAuthentication(authResult);
+	rememberMeServices.loginSuccess(request, response, authResult);
+	<span class="hljs-comment">// Fire event</span>
+	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.eventPublisher != <span class="hljs-keyword">null</span>) &#123;
+		eventPublisher.publishEvent(<span class="hljs-keyword">new</span> InteractiveAuthenticationSuccessEvent(
+				authResult, <span class="hljs-keyword">this</span>.getClass()));
+	&#125;
+	successHandler.onAuthenticationSuccess(request, response, authResult);
+&#125;</code></pre></div>
+
+<p>在这里有一段很重要的代码，就是 <code>SecurityContextHolder.getContext().setAuthentication(authResult);</code> ，登录成功的用户信息被保存在这里，也就是说，在任何地方，如果我们想获取用户登录信息，都可以从 <code>SecurityContextHolder.getContext()</code> 中获取到，想修改，也可以在这里修改。</p>
+<blockquote>
+<p><strong>注意，这里的authResult存的是一个ThreadLocal的变量</strong></p>
+<p>最后大家还看到有一个 <code>successHandler.onAuthenticationSuccess</code>，这就是我们在 SecurityConfig 中配置登录成功回调方法，就是在这里被触发的，这块大家也可以参考<a target="_blank" rel="noopener" href="https://github.com/Lucifer2u/xm-luciferpro/blob/master/luciferpro-server/luciferpro-web/src/main/java/org/lucifer/vbluciferpro/config/SecurityConfig.java">我github里边的配置</a>。 </p>
+</blockquote>
+<p><strong>到此为止，我们Session的信息也能确认也保存到这里了，拿到这个信息，我们就可以按着这里思路去我<a target="_blank" rel="noopener" href="https://github.com/Lucifer2u/xm-luciferpro">github上的后端管理项目</a>中设计新的内容，比如我在个人中心中，想要在不重新登录的情况下，获取到最新的用户信息，下面我将针对个人中心的设计思路进行阐述</strong></p>
+<h2 id="💣如果登陆失败呢？"><a href="#💣如果登陆失败呢？" class="headerlink" title="💣如果登陆失败呢？"></a>💣如果登陆失败呢？</h2><h3 id="🔑引入"><a href="#🔑引入" class="headerlink" title="🔑引入"></a>🔑引入</h3><p>正确情况下，当我们登录成功后，可以通过如下方式获取到当前登录用户信息：</p>
+<ol>
+<li><code>SecurityContextHolder.getContext().getAuthentication()</code></li>
+<li>在 Controller 的方法中，加入 <code>Authentication </code>参数</li>
+</ol>
+<p>正常情况下，我们通过如上两种方式的任意一种就可以获取到已经登录的用户信息。</p>
+<p><strong>但是我们需要思考，异常情况，就是这两种方式中的任意一种，都返回 null。</strong></p>
+<p>都返回 null，意味着系统收到当前请求时并不知道你已经登录了（因为你没有在系统中留下任何有效信息），这会带来两个问题：</p>
+<ol>
+<li>无法获取到当前登录用户信息。</li>
+<li>当你发送任何请求，系统都会给你返回 401。</li>
+</ol>
+<h3 id="🔒开始剖析"><a href="#🔒开始剖析" class="headerlink" title="🔒开始剖析"></a>🔒开始剖析</h3><p>要弄明白这个问题，我们就得明白 Spring Security 中的用户信息到底是在哪里存的？</p>
+<p>前面说了两种数据获取方式，但是这两种数据获取方式，获取到的数据又是从哪里来的？</p>
+<p><strong><code>SecurityContextHolder</code> 中的数据，本质上是保存在 <code>ThreadLocal</code> 中，<code>ThreadLocal</code> 的特点是存在它里边的数据，哪个线程存的，哪个线程才能访问到。</strong></p>
+<p>这样就带来一个问题，当不同的请求进入到服务端之后，由不同的 thread 去处理，按理说后面的请求就可能无法获取到登录请求的线程存入的数据，例如登录请求在线程 A 中将登录用户信息存入 <code>ThreadLocal</code>，后面的请求来了，在线程 B 中处理，那此时就无法获取到用户的登录信息。</p>
+<p><strong>但实际上，正常情况下，我们每次都能够获取到登录用户信息，这又是怎么回事呢？</strong></p>
+<p>这我们就要引入 Spring Security 中的 <code>SecurityContextPersistenceFilter</code>了。</p>
+<p>小伙伴们都知道，无论是 Spring Security 还是 Shiro，它的一系列功能其实都是由过滤器来完成的，在 Spring Security 中，我们熟悉的是<code>UsernamePasswordAuthenticationFilter</code> 过滤器，在这个过滤器之前，还有一个过滤器就是 <code>SecurityContextPersistenceFilter</code>，请求在到达 <code>UsernamePasswordAuthenticationFilter</code> 之前都会先经过 <code>SecurityContextPersistenceFilter</code>。</p>
+<p>我们来看下它的源码(部分)：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SecurityContextPersistenceFilter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">GenericFilterBean</span> </span>&#123;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doFilter</span><span class="hljs-params">(ServletRequest req, ServletResponse res, FilterChain chain)</span></span>
+<span class="hljs-function">			<span class="hljs-keyword">throws</span> IOException, ServletException </span>&#123;
+		HttpServletRequest request = (HttpServletRequest) req;
+		HttpServletResponse response = (HttpServletResponse) res;
+		HttpRequestResponseHolder holder = <span class="hljs-keyword">new</span> HttpRequestResponseHolder(request,
+				response);
+		SecurityContext contextBeforeChainExecution = repo.loadContext(holder);
+		<span class="hljs-keyword">try</span> &#123;
+			SecurityContextHolder.setContext(contextBeforeChainExecution);
+			chain.doFilter(holder.getRequest(), holder.getResponse());
+		&#125;
+		<span class="hljs-keyword">finally</span> &#123;
+			SecurityContext contextAfterChainExecution = SecurityContextHolder
+					.getContext();
+			SecurityContextHolder.clearContext();
+			repo.saveContext(contextAfterChainExecution, holder.getRequest(),
+					holder.getResponse());
+		&#125;
+	&#125;
+&#125;</code></pre></div>
+
+<p>原本的方法很长，我这里列出来了比较关键的几个部分：</p>
+<ol>
+<li><code>SecurityContextPersistenceFilter</code> 继承自 <code>GenericFilterBean</code>，而<code> GenericFilterBean</code> 则是 Filter 的实现，所以 <code>SecurityContextPersistenceFilter</code> 作为一个过滤器，它里边最重要的方法就是 doFilter 了。</li>
+<li>在 doFilter 方法中，它首先会从 repo 中读取一个 <code>SecurityContext</code> 出来，这里的 repo 实际上就是 <code>HttpSessionSecurityContextRepository</code>，读取 <code>SecurityContext</code> 的操作会进入到 <code>readSecurityContextFromSession</code> 方法中，在这里我们看到了读取的核心方法 <code>Object contextFromSession = httpSession.getAttribute(springSecurityContextKey);</code>，这里的 <code>springSecurityContextKey</code> 对象的值就是 <code>SPRING_SECURITY_CONTEXT</code>，读取出来的对象最终会被转为一个 <code>SecurityContext</code> 对象。</li>
+<li><code>SecurityContext</code> 是一个接口，它有一个唯一的实现类 <code>SecurityContextImpl</code>，这个实现类其实就是用户信息在 session 中保存的 value。</li>
+<li>在拿到 <code>SecurityContext </code>之后，通过 <code>SecurityContextHolder.setContext</code> 方法将这个 SecurityContext 设置到 <code>ThreadLocal </code>中去，这样，在当前请求中，<code>Spring Security</code> 的后续操作，我们都可以直接从<code>SecurityContextHolder</code>中获取到用户信息了。</li>
+<li>接下来，通过<code> chain.doFilter</code> 让请求继续向下走（这个时候就会进入到 <code>UsernamePasswordAuthenticationFilter</code> 过滤器中了）。</li>
+<li>在过滤器链走完之后，数据响应给前端之后，finally 中还有一步收尾操作，这一步很关键。这里从 <code>SecurityContextHolder</code> 中获取到 <code>SecurityContext</code>，获取到之后，会把 <code>SecurityContextHolder</code> 清空，然后调用 <code>repo.saveContext</code> 方法将获取到的<code>SecurityContext</code>存入 session 中。</li>
+</ol>
+<p>至此，整个流程就很明了了。</p>
+<p><strong>每一个请求到达服务端的时候，首先从 session 中找出来 <code>SecurityContext</code> ，然后设置到 <code>SecurityContextHolder </code>中去，方便后续使用，当这个请求离开的时候，<code>SecurityContextHolder</code> 会被清空，<code>SecurityContext</code> 会被放回 session 中，方便下一个请求来的时候获取。</strong></p>
+<p>搞明白这一点之后，再去解决 Spring Security 登录后无法获取到当前登录用户这个问题，就非常 easy 了。</p>
+<h3 id="😄问题解决"><a href="#😄问题解决" class="headerlink" title="😄问题解决"></a>😄问题解决</h3><p>经过上面的分析之后，我们再来回顾一下为什么会发生登录之后无法获取到当前用户信息这样的事情？</p>
+<p>最简单情况的就是你在一个新的线程中去执行 <code>SecurityContextHolder.getContext().getAuthentication()</code>，这肯定获取不到用户信息，无需多说。例如下面这样：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/menu&quot;)</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Menu&gt; <span class="hljs-title">getMenusByHrId</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Runnable() &#123;
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            System.out.println(authentication);
+        &#125;
+    &#125;).start();
+    <span class="hljs-keyword">return</span> menuService.getMenusByHrId();
+&#125;</code></pre></div>
+
+<p>这种简单的问题相信大家都能够很容易排查到。</p>
+<p><strong>还有一种隐藏比较深的就是在 <code>SecurityContextPersistenceFilter </code>的 doFilter 方法中没能从 session 中加载到用户信息，进而导致 <code>SecurityContextHolder </code>里边空空如也。</strong></p>
+<p>在 <code>SecurityContextPersistenceFilter </code>中没能加载到用户信息，原因可能就比较多了，例如：</p>
+<ul>
+<li><strong>「上一个请求临走的时候，没有将数据存储到 session 中去。」</strong></li>
+<li><strong>「当前请求自己没走过滤器链。」</strong></li>
+</ul>
+<p>什么时候会发生这个问题呢？有的小伙伴可能在配置 <code>SecurityConfig#configure(WebSecurity)</code> 方法时，会忽略掉一个重要的点。</p>
+<p>当我们想让 Spring Security 中的资源可以匿名访问时，我们有两种办法：</p>
+<ol>
+<li>不走 Spring Security 过滤器链。</li>
+<li>继续走 Spring Security 过滤器链，但是可以匿名访问。</li>
+</ol>
+<p>这两种办法对应了两种不同的配置方式。其中第一种配置可能会影响到我们获取登录用户信息，第二种则不影响，所以这里我们来重点看看第一种。</p>
+<p>不想走 Spring Security 过滤器链，我们一般可以通过如下方式配置：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(WebSecurity web)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    web.ignoring().antMatchers(<span class="hljs-string">&quot;/css/**&quot;</span>,<span class="hljs-string">&quot;/js/**&quot;</span>,<span class="hljs-string">&quot;/index.html&quot;</span>,<span class="hljs-string">&quot;/img/**&quot;</span>,<span class="hljs-string">&quot;/fonts/**&quot;</span>,<span class="hljs-string">&quot;/favicon.ico&quot;</span>,<span class="hljs-string">&quot;/verifyCode&quot;</span>);
+&#125;</code></pre></div>
+
+<p>正常这样配置是没有问题的。</p>
+<p>如果你很不巧，把登录请求地址放进来了，那就 gg 了。虽然登录请求可以被所有人访问，但是不能放在这里（而应该通过允许匿名访问的方式来给请求放行）。<strong>「如果放在这里，登录请求将不走 <code>SecurityContextPersistenceFilter</code> 过滤器，也就意味着不会将登录用户信息存入 session，进而导致后续请求无法获取到登录用户信息。」</strong></p>
+<h2 id="👤沿着路：个人中心的设计"><a href="#👤沿着路：个人中心的设计" class="headerlink" title="👤沿着路：个人中心的设计"></a>👤沿着路：个人中心的设计</h2><h3 id="🔑如何获取用户信息"><a href="#🔑如何获取用户信息" class="headerlink" title="🔑如何获取用户信息"></a>🔑如何获取用户信息</h3><p>在Spring Security中提供了<code>Authentication</code>，可以直接在Controller中直接注入就可以使用</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/hr/info&quot;)</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> Hr <span class="hljs-title">getCurrentHr</span><span class="hljs-params">(Authentication authentication)</span> </span>&#123;
+    <span class="hljs-keyword">return</span> ((Hr) authentication.getPrincipal());
+&#125;</code></pre></div>
+
+<h3 id="🔑如何修改用户信息"><a href="#🔑如何修改用户信息" class="headerlink" title="🔑如何修改用户信息"></a>🔑如何修改用户信息</h3><p>因为Spring Security帮你把Session保存好了，自己没处理，所以只能通过上诉分析的结果来更改，接下来定义接口：</p>
+<p>相当于重新构建一个<code>Authentication</code> 实例放到Context中去，又分为：</p>
+<ul>
+<li><strong>修改用户的基础信息，不需要重新登录</strong></li>
+<li><strong>修改密码后需要重新登录（在前端处理此逻辑）</strong></li>
+</ul>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@PutMapping(&quot;/hr/info&quot;)</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> RespBean <span class="hljs-title">updateHr</span><span class="hljs-params">(<span class="hljs-meta">@RequestBody</span> Hr hr, Authentication authentication)</span> </span>&#123;
+    <span class="hljs-keyword">if</span> (hrService.updateHr(hr) == <span class="hljs-number">1</span>) &#123;
+      	<span class="hljs-comment">//利用上面的思路，直接修改</span>
+        SecurityContextHolder.getContext().setAuthentication(<span class="hljs-keyword">new</span> UsernamePasswordAuthenticationToken(hr, authentication.getCredentials(), authentication.getAuthorities()));
+        <span class="hljs-keyword">return</span> RespBean.ok(<span class="hljs-string">&quot;更新成功!&quot;</span>);
+    &#125;
+    <span class="hljs-keyword">return</span> RespBean.error(<span class="hljs-string">&quot;更新失败!&quot;</span>);
+&#125;
+
+<span class="hljs-meta">@PutMapping(&quot;/hr/pass&quot;)</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> RespBean <span class="hljs-title">updateHrPasswd</span><span class="hljs-params">(<span class="hljs-meta">@RequestBody</span> Map&lt;String, Object&gt; info)</span> </span>&#123;
+    String oldpass = (String) info.get(<span class="hljs-string">&quot;oldpass&quot;</span>);
+    String pass = (String) info.get(<span class="hljs-string">&quot;pass&quot;</span>);
+    Integer hrid = (Integer) info.get(<span class="hljs-string">&quot;hrid&quot;</span>);
+    <span class="hljs-keyword">if</span> (hrService.updateHrPasswd(oldpass, pass, hrid)) &#123;
+        <span class="hljs-keyword">return</span> RespBean.ok(<span class="hljs-string">&quot;更新成功!&quot;</span>);
+    &#125;
+    <span class="hljs-keyword">return</span> RespBean.error(<span class="hljs-string">&quot;更新失败!&quot;</span>);
+&#125;</code></pre></div>
+
+<p>因为修改密码需要设计到数据库的操作，然后设计Service层</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">updateHrPasswd</span><span class="hljs-params">(String oldpass, String pass, Integer hrid)</span> </span>&#123;
+    Hr hr = hrMapper.selectByPrimaryKey(hrid);
+    BCryptPasswordEncoder encoder = <span class="hljs-keyword">new</span> BCryptPasswordEncoder();
+    <span class="hljs-keyword">if</span> (encoder.matches(oldpass, hr.getPassword())) &#123;
+        String encodePass = encoder.encode(pass);
+        Integer result = hrMapper.updatePasswd(hrid, encodePass);
+        <span class="hljs-keyword">if</span> (result == <span class="hljs-number">1</span>) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+&#125;</code></pre></div>
+
+<p>然后定义Mapper</p>
+<div class="hljs code-wrapper"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">update</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;updatePasswd&quot;</span>&gt;</span>
+  update hr set password = #&#123;encodePass&#125; where id=#&#123;hrid&#125;;
+<span class="hljs-tag">&lt;/<span class="hljs-name">update</span>&gt;</span></code></pre></div>
+
+<p>这样就完成了个人中心的基础配置，修改头像可以存在云端或者自己本地的服务器上，看自己如何选择，我是用FaseDFS完成了存储的问题，以后有机会另外写一篇文章讨论</p>
+<p><strong>这样关于Session的问题，我们还能继续探讨，在现实中我们会有这样的请求，已经登陆了的用户，再另一端登陆的时候，需要把之前登陆的信息抹除并踢掉，防止多端登陆，造成不必要的麻烦</strong></p>
+<h2 id="🦶继续走：踢掉已登录用户"><a href="#🦶继续走：踢掉已登录用户" class="headerlink" title="🦶继续走：踢掉已登录用户"></a>🦶继续走：踢掉已登录用户</h2><h3 id="🤔分析需求"><a href="#🤔分析需求" class="headerlink" title="🤔分析需求"></a>🤔分析需求</h3><p>在同一个系统中，我们可能只允许一个用户在一个终端上登录，一般来说这可能是出于安全方面的考虑，但是也有一些情况是出于业务上的考虑</p>
+<p>要实现一个用户不可以同时在两台设备上登录，我们有两种思路：</p>
+<ul>
+<li>后来的登录自动踢掉前面的登录，就像大家在QQ中看到的效果。</li>
+<li>如果用户已经登录，则不允许后来者登录。</li>
+</ul>
+<p>这种思路都能实现这个功能，具体使用哪一个，还要看我们具体的需求。</p>
+<h3 id="🔧基础配置"><a href="#🔧基础配置" class="headerlink" title="🔧基础配置"></a>🔧基础配置</h3><p><strong>想要踢掉已登录的用户配置</strong>起来比较简单，我们只需要将最大会话数设置为 1 即可，配置如下：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    http.authorizeRequests()
+            .anyRequest().authenticated()
+            .sessionManagement()
+            .maximumSessions(<span class="hljs-number">1</span>);
+&#125;</code></pre></div>
+
+<p><code>setMaximumSessions</code> 表示配置最大会话数为 1，这样后面的登录就会自动踢掉前面的登录。</p>
+<p>如果相同的用户已经登录了，你不想踢掉他，而是想禁止新的登录操作，那也好办，配置方式如下：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    http.authorizeRequests()
+            .anyRequest().authenticated()
+            .sessionManagement()
+            .maximumSessions(<span class="hljs-number">1</span>)
+            .maxSessionsPreventsLogin(<span class="hljs-keyword">true</span>);
+&#125;</code></pre></div>
+
+<p>添加 <code>maxSessionsPreventsLogin</code> 配置即可。此时一个浏览器登录成功后，另外一个浏览器就登录不了了。</p>
+<blockquote>
+<p>maxSessionsPreventsLogin提供两种session保护策略：</p>
+<ul>
+<li>true表示已经登录就不予许再次登录，</li>
+<li>false表示允许再次登录但是之前的登录账户会被踢下线</li>
+</ul>
+</blockquote>
+<p>不过还没完，我们还需要再提供一个 Bean：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span>
+<span class="hljs-function">HttpSessionEventPublisher <span class="hljs-title">httpSessionEventPublisher</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> HttpSessionEventPublisher();
+&#125;</code></pre></div>
+
+<p><strong>为什么要加这个 Bean 呢？因为在 Spring Security 中，它是通过监听 session 的销毁事件，来及时的清理 session 的记录</strong>。用户从不同的浏览器登录后，都会有对应的 session，当用户注销登录之后，session 就会失效，但是默认的失效是通过调用 <code>StandardSession#invalidate</code> 方法来实现的，这一个失效事件无法被 Spring 容器感知到，进而导致当用户注销登录之后，Spring Security 没有及时清理会话信息表，以为用户还在线，进而导致用户无法重新登录进来（大家可以不添加上面的 Bean，然后让用户注销登录之后再重新登录）。</p>
+<p>为了解决这一问题，我们提供一个 <code>HttpSessionEventPublisher</code> ，这个类实现了 <code>HttpSessionListener</code> 接口，在该 Bean 中，可以将 session 创建以及销毁的事件及时感知到，并且调用 Spring 中的事件机制将相关的创建和销毁事件发布出去，进而被 Spring Security 感知到，该类部分源码如下：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sessionCreated</span><span class="hljs-params">(HttpSessionEvent event)</span> </span>&#123;
+	HttpSessionCreatedEvent e = <span class="hljs-keyword">new</span> HttpSessionCreatedEvent(event.getSession());
+	getContext(event.getSession().getServletContext()).publishEvent(e);
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sessionDestroyed</span><span class="hljs-params">(HttpSessionEvent event)</span> </span>&#123;
+	HttpSessionDestroyedEvent e = <span class="hljs-keyword">new</span> HttpSessionDestroyedEvent(event.getSession());
+	getContext(event.getSession().getServletContext()).publishEvent(e);
+&#125;</code></pre></div>
+
+<p>OK，虽然多了一个配置，但是依然很简单！</p>
+<h3 id="📖实现原理"><a href="#📖实现原理" class="headerlink" title="📖实现原理"></a>📖实现原理</h3><p>上面这个功能，在 Spring Security 中是怎么实现的呢？我们来稍微分析一下源码。</p>
+<p>首先我们知道，在用户登录的过程中，会经过 <code>UsernamePasswordAuthenticationFilter</code>，而 <code>UsernamePasswordAuthenticationFilter</code> 中过滤方法的调用是在 <code>AbstractAuthenticationProcessingFilter</code> 中触发的，我们来看下 <code>AbstractAuthenticationProcessingFilter#doFilter </code>方法的调用：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doFilter</span><span class="hljs-params">(ServletRequest req, ServletResponse res, FilterChain chain)</span></span>
+<span class="hljs-function">		<span class="hljs-keyword">throws</span> IOException, ServletException </span>&#123;
+	HttpServletRequest request = (HttpServletRequest) req;
+	HttpServletResponse response = (HttpServletResponse) res;
+	<span class="hljs-keyword">if</span> (!requiresAuthentication(request, response)) &#123;
+		chain.doFilter(request, response);
+		<span class="hljs-keyword">return</span>;
+	&#125;
+	Authentication authResult;
+	<span class="hljs-keyword">try</span> &#123;
+		authResult = attemptAuthentication(request, response);
+		<span class="hljs-keyword">if</span> (authResult == <span class="hljs-keyword">null</span>) &#123;
+			<span class="hljs-keyword">return</span>;
+		&#125;
+		sessionStrategy.onAuthentication(authResult, request, response);
+	&#125;
+	<span class="hljs-keyword">catch</span> (InternalAuthenticationServiceException failed) &#123;
+		unsuccessfulAuthentication(request, response, failed);
+		<span class="hljs-keyword">return</span>;
+	&#125;
+	<span class="hljs-keyword">catch</span> (AuthenticationException failed) &#123;
+		unsuccessfulAuthentication(request, response, failed);
+		<span class="hljs-keyword">return</span>;
+	&#125;
+	<span class="hljs-comment">// Authentication success</span>
+	<span class="hljs-keyword">if</span> (continueChainBeforeSuccessfulAuthentication) &#123;
+		chain.doFilter(request, response);
+	&#125;
+	successfulAuthentication(request, response, chain, authResult);</code></pre></div>
+
+<p>在这段代码中，我们可以看到，调用 <code>attemptAuthentication</code> 方法走完认证流程之后，回来之后，<strong>接下来就是调用 <code>sessionStrategy.onAuthentication</code> 方法，这个方法就是用来处理 session 的并发问题的。</strong>具体在：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConcurrentSessionControlAuthenticationStrategy</span> <span class="hljs-keyword">implements</span></span>
+<span class="hljs-class">		<span class="hljs-title">MessageSourceAware</span>, <span class="hljs-title">SessionAuthenticationStrategy</span> </span>&#123;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAuthentication</span><span class="hljs-params">(Authentication authentication,</span></span>
+<span class="hljs-function"><span class="hljs-params">			HttpServletRequest request, HttpServletResponse response)</span> </span>&#123;
+
+		<span class="hljs-keyword">final</span> List&lt;SessionInformation&gt; sessions = sessionRegistry.getAllSessions(
+				authentication.getPrincipal(), <span class="hljs-keyword">false</span>);
+
+		<span class="hljs-keyword">int</span> sessionCount = sessions.size();
+		<span class="hljs-keyword">int</span> allowedSessions = getMaximumSessionsForThisUser(authentication);
+
+		<span class="hljs-keyword">if</span> (sessionCount &lt; allowedSessions) &#123;
+			<span class="hljs-comment">// They haven&#x27;t got too many login sessions running at present</span>
+			<span class="hljs-keyword">return</span>;
+		&#125;
+
+		<span class="hljs-keyword">if</span> (allowedSessions == -<span class="hljs-number">1</span>) &#123;
+			<span class="hljs-comment">// We permit unlimited logins</span>
+			<span class="hljs-keyword">return</span>;
+		&#125;
+
+		<span class="hljs-keyword">if</span> (sessionCount == allowedSessions) &#123;
+			HttpSession session = request.getSession(<span class="hljs-keyword">false</span>);
+
+			<span class="hljs-keyword">if</span> (session != <span class="hljs-keyword">null</span>) &#123;
+				<span class="hljs-comment">// Only permit it though if this request is associated with one of the</span>
+				<span class="hljs-comment">// already registered sessions</span>
+				<span class="hljs-keyword">for</span> (SessionInformation si : sessions) &#123;
+					<span class="hljs-keyword">if</span> (si.getSessionId().equals(session.getId())) &#123;
+						<span class="hljs-keyword">return</span>;
+					&#125;
+				&#125;
+			&#125;
+			<span class="hljs-comment">// If the session is null, a new one will be created by the parent class,</span>
+			<span class="hljs-comment">// exceeding the allowed number</span>
+		&#125;
+
+		allowableSessionsExceeded(sessions, allowedSessions, sessionRegistry);
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">allowableSessionsExceeded</span><span class="hljs-params">(List&lt;SessionInformation&gt; sessions,</span></span>
+<span class="hljs-function"><span class="hljs-params">			<span class="hljs-keyword">int</span> allowableSessions, SessionRegistry registry)</span></span>
+<span class="hljs-function">			<span class="hljs-keyword">throws</span> SessionAuthenticationException </span>&#123;
+		<span class="hljs-keyword">if</span> (exceptionIfMaximumExceeded || (sessions == <span class="hljs-keyword">null</span>)) &#123;
+			<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> SessionAuthenticationException(messages.getMessage(
+					<span class="hljs-string">&quot;ConcurrentSessionControlAuthenticationStrategy.exceededAllowed&quot;</span>,
+					<span class="hljs-keyword">new</span> Object[] &#123;allowableSessions&#125;,
+					<span class="hljs-string">&quot;Maximum sessions of &#123;0&#125; for this principal exceeded&quot;</span>));
+		&#125;
+
+		<span class="hljs-comment">// Determine least recently used sessions, and mark them for invalidation</span>
+		sessions.sort(Comparator.comparing(SessionInformation::getLastRequest));
+		<span class="hljs-keyword">int</span> maximumSessionsExceededBy = sessions.size() - allowableSessions + <span class="hljs-number">1</span>;
+		List&lt;SessionInformation&gt; sessionsToBeExpired = sessions.subList(<span class="hljs-number">0</span>, maximumSessionsExceededBy);
+		<span class="hljs-keyword">for</span> (SessionInformation session: sessionsToBeExpired) &#123;
+			session.expireNow();
+		&#125;
+	&#125;
+&#125;</code></pre></div>
+
+<p>这段核心代码我来给大家稍微解释下：</p>
+<ol>
+<li>首先调用 <code>sessionRegistry.getAllSessions</code> 方法获取当前用户的所有 session，该方法在调用时，传递两个参数，一个是当前用户的 <code>authentication</code>，另一个参数 false 表示不包含已经过期的 session（在用户登录成功后，会将用户的 sessionid 存起来，其中 key 是用户的主体（principal），value 则是该主题对应的 sessionid 组成的一个集合）。</li>
+<li>接下来计算出当前用户已经有几个有效 session 了，同时获取允许的 session 并发数。</li>
+<li>如果当前 session 数（sessionCount）小于 session 并发数（allowedSessions），则不做任何处理；如果 allowedSessions 的值为 -1，表示对 session 数量不做任何限制。</li>
+<li>如果当前 session 数（sessionCount）等于 session 并发数（allowedSessions），那就先看看当前 session 是否不为 null，并且已经存在于 sessions 中了，如果已经存在了，那都是自家人，不做任何处理；如果当前 session 为 null，那么意味着将有一个新的 session 被创建出来，届时当前 session 数（sessionCount）就会超过 session 并发数（allowedSessions）。</li>
+<li>如果前面的代码中都没能 return 掉，那么将进入策略判断方法 <code>allowableSessionsExceeded</code> 中。</li>
+<li><code>allowableSessionsExceeded</code> 方法中，首先会有 <code>exceptionIfMaximumExceeded </code>属性，这就是我们在 SecurityConfig 中配置的 <code>maxSessionsPreventsLogin</code> 的值，默认为 false，如果为 true，就直接抛出异常，那么这次登录就失败了（禁止新的登录），如果为 false，则对 sessions 按照请求时间进行排序，然后再使多余的 session 过期即可（踢掉已经登录用户）。</li>
+</ol>
+<h3 id="🪣用户配置放入库"><a href="#🪣用户配置放入库" class="headerlink" title="🪣用户配置放入库"></a>🪣用户配置放入库</h3><p><strong>但是，就是我们的用户是配置在内存中的用户，我们没有将用户放到数据库中去。在做 Spring Security 的 session 并发处理时，直接将内存中的用户切换为数据库中的用户会有问题</strong></p>
+<p>我们就要先搞明白 Spring Security 是怎么保存用户对象和 session 的。</p>
+<p>Spring Security 中通过 SessionRegistryImpl 类来实现对会话信息的统一管理，我们来看下这个类的源码（部分）：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SessionRegistryImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">SessionRegistry</span>,</span>
+<span class="hljs-class">		<span class="hljs-title">ApplicationListener</span>&lt;<span class="hljs-title">SessionDestroyedEvent</span>&gt; </span>&#123;
+	<span class="hljs-comment">/** &lt;principal:Object,SessionIdSet&gt; */</span>
+	<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> ConcurrentMap&lt;Object, Set&lt;String&gt;&gt; principals;
+	<span class="hljs-comment">/** &lt;sessionId:Object,SessionInformation&gt; */</span>
+	<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Map&lt;String, SessionInformation&gt; sessionIds;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">registerNewSession</span><span class="hljs-params">(String sessionId, Object principal)</span> </span>&#123;
+		<span class="hljs-keyword">if</span> (getSessionInformation(sessionId) != <span class="hljs-keyword">null</span>) &#123;
+			removeSessionInformation(sessionId);
+		&#125;
+		sessionIds.put(sessionId,
+				<span class="hljs-keyword">new</span> SessionInformation(principal, sessionId, <span class="hljs-keyword">new</span> Date()));
+
+		principals.compute(principal, (key, sessionsUsedByPrincipal) -&gt; &#123;
+			<span class="hljs-keyword">if</span> (sessionsUsedByPrincipal == <span class="hljs-keyword">null</span>) &#123;
+				sessionsUsedByPrincipal = <span class="hljs-keyword">new</span> CopyOnWriteArraySet&lt;&gt;();
+			&#125;
+			sessionsUsedByPrincipal.add(sessionId);
+			<span class="hljs-keyword">return</span> sessionsUsedByPrincipal;
+		&#125;);
+	&#125;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">removeSessionInformation</span><span class="hljs-params">(String sessionId)</span> </span>&#123;
+		SessionInformation info = getSessionInformation(sessionId);
+		<span class="hljs-keyword">if</span> (info == <span class="hljs-keyword">null</span>) &#123;
+			<span class="hljs-keyword">return</span>;
+		&#125;
+		sessionIds.remove(sessionId);
+		principals.computeIfPresent(info.getPrincipal(), (key, sessionsUsedByPrincipal) -&gt; &#123;
+			sessionsUsedByPrincipal.remove(sessionId);
+			<span class="hljs-keyword">if</span> (sessionsUsedByPrincipal.isEmpty()) &#123;
+				sessionsUsedByPrincipal = <span class="hljs-keyword">null</span>;
+			&#125;
+			<span class="hljs-keyword">return</span> sessionsUsedByPrincipal;
+		&#125;);
+	&#125;
+
+&#125;</code></pre></div>
+
+<p>这个类的源码还是比较长，我这里提取出来一些比较关键的部分：</p>
+<ol>
+<li>首先大家看到，一上来声明了一个<code>principals</code>对象，这是一个支持并发访问的 map 集合，集合的 key 就是用户的主体（<code>principal</code>），正常来说，用户的 <code>principal</code> 其实就是用户对象，在之前的文章中也和大家讲过 <code>principal</code> 是怎么样存入到<code> Authentication</code> 中的，而集合的 value 则是一个 set 集合，这个 set 集合中保存了这个用户对应的<code> sessionid</code></li>
+<li>如有新的 session 需要添加，就在 <code>registerNewSession</code> 方法中进行添加，具体是调用 <code>principals.compute</code> 方法进行添加，key 就是 <code>principal</code></li>
+<li>如果用户注销登录，<code>sessionid</code> 需要移除，相关操作在 <code>removeSessionInformation </code>方法中完成，具体也是调用 <code>principals.computeIfPresent </code>方法，这些关于集合的基本操作我就不再赘述了。</li>
+</ol>
+<p>看到这里，大家发现一个问题，<code>ConcurrentMap</code> 集合的 key 是 <code>principal </code>对象，<strong>用对象做 key，一定要重写 equals 方法和 hashCode 方法，</strong>否则第一次存完数据，下次就找不到了，这是 JavaSE 方面的知识，我就不用多说了。</p>
+<p>首先第一步，我们重写实体类的 equals 和 hashCode 方法，如下：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Hr</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserDetails</span> </span>&#123;
+    ...
+    ...
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object o)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span> == o) <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        <span class="hljs-keyword">if</span> (o == <span class="hljs-keyword">null</span> || getClass() != o.getClass()) <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+        Hr hr = (Hr) o;
+        <span class="hljs-keyword">return</span> Objects.equals(username, hr.username);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hashCode</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> Objects.hash(username);
+    &#125;
+    ...
+    ...
+&#125;</code></pre></div>
+
+<h3 id="💻结合项目"><a href="#💻结合项目" class="headerlink" title="💻结合项目"></a>💻结合项目</h3><p><strong>由于目前是采用了 JSON 格式登录，所以如果项目控制 session 并发数，就会有一些额外的问题要处理。</strong></p>
+<p><strong>最大的问题在于我们用自定义的过滤器代替了 <code>UsernamePasswordAuthenticationFilter</code>，进而导致前面所讲的关于 session 的配置，统统失效。</strong>所有相关的配置我们都要在新的过滤器 <code>LoginFilter</code> 中进行配置 ，包括 <code>SessionAuthenticationStrategy</code> 也需要我们自己手动配置了。</p>
+<p><strong>接下来在 <code>SecurityConfig </code>中进行配置。</strong></p>
+<p>这里我们要自己提供 <code>SessionAuthenticationStrategy</code>，而前面处理 session 并发的是<code> ConcurrentSessionControlAuthenticationStrategy</code>，也就是说，我们需要自己提供一个 <code>ConcurrentSessionControlAuthenticationStrategy</code> 的实例，然后配置给 <code>LoginFilter</code>，但是在创建 <code>ConcurrentSessionControlAuthenticationStrategy</code> 实例的过程中，还需要有一个 <code>SessionRegistryImpl</code> 对象。</p>
+<p>前面我们说过，<code>SessionRegistryImpl</code> 对象是用来维护会话信息的，现在这个东西也要我们自己来提供，<code>SessionRegistryImpl </code>实例很好创建，如下：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span>
+<span class="hljs-function">SessionRegistryImpl <span class="hljs-title">sessionRegistry</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> SessionRegistryImpl();
+&#125;</code></pre></div>
+
+<p>然后在 <code>SecurityConfig</code> 中的 <code>LoginFilter</code> 中配置 <code>SessionAuthenticationStrategy</code>，如下：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Bean</span>
+<span class="hljs-function">LoginFilter <span class="hljs-title">loginFilter</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    LoginFilter loginFilter = <span class="hljs-keyword">new</span> LoginFilter();
+		<span class="hljs-comment">//自己提供   </span>
+    ConcurrentSessionControlAuthenticationStrategy sessionStrategy = <span class="hljs-keyword">new</span> ConcurrentSessionControlAuthenticationStrategy(sessionRegistry());
+    sessionStrategy.setMaximumSessions(<span class="hljs-number">1</span>);
+    loginFilter.setSessionAuthenticationStrategy(sessionStrategy);
+    <span class="hljs-keyword">return</span> loginFilter;
+&#125;</code></pre></div>
+
+<p>我们在这里自己手动构建 <code>ConcurrentSessionControlAuthenticationStrategy</code> 实例，构建时传递 <code>SessionRegistryImpl </code>参数，然后设置 session 的并发数为 1，最后再将 <code>sessionStrategy</code> 配置给 <code>LoginFilter</code></p>
+<p>这就配置完了吗？没有！session 处理还有一个关键的过滤器叫做 <code>ConcurrentSessionFilter</code>，本来这个过滤器是不需要我们管的，但是这个过滤器中也用到了 <code>SessionRegistryImpl</code>，而 <code>SessionRegistryImpl</code> 现在是由我们自己来定义的，所以，该过滤器我们也要重新配置一下，如下：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    http.authorizeRequests()
+            ...
+    http.addFilterAt(<span class="hljs-keyword">new</span> ConcurrentSessionFilter(sessionRegistry(), event -&gt; &#123;
+        HttpServletResponse resp = event.getResponse();
+        resp.setContentType(<span class="hljs-string">&quot;application/json;charset=utf-8&quot;</span>);
+        resp.setStatus(<span class="hljs-number">401</span>);
+        PrintWriter out = resp.getWriter();
+        out.write(<span class="hljs-keyword">new</span> ObjectMapper().writeValueAsString(RespBean.error(<span class="hljs-string">&quot;您已在另一台设备登录，本次登录已下线!&quot;</span>)));
+        out.flush();
+        out.close();
+    &#125;), ConcurrentSessionFilter.class);
+&#125;</code></pre></div>
+
+<p>在这里，我们重新创建一个 <code>ConcurrentSessionFilter</code> 的实例，代替系统默认的即可。在创建新的 <code>ConcurrentSessionFilter</code> 实例时，需要两个参数：</p>
+<ol>
+<li><code>sessionRegistry</code> 就是我们前面提供的 <code>SessionRegistryImpl </code>实例。</li>
+<li>第二个参数，是一个处理 session 过期后的回调函数，也就是说，当用户被另外一个登录踢下线之后，你要给什么样的下线提示，就在这里来完成。</li>
+</ol>
+<p>最后，我们还需要在处理完登录数据之后，手动向 <code>SessionRegistryImpl</code> 中添加一条记录：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginFilter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">UsernamePasswordAuthenticationFilter</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    SessionRegistry sessionRegistry;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Authentication <span class="hljs-title">attemptAuthentication</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="hljs-keyword">throws</span> AuthenticationException </span>&#123;
+        <span class="hljs-comment">//省略</span>
+            Hr principal = <span class="hljs-keyword">new</span> Hr();
+            principal.setUsername(username);
+            sessionRegistry.registerNewSession(request.getSession(<span class="hljs-keyword">true</span>).getId(), principal);
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getAuthenticationManager().authenticate(authRequest);
+        &#125; 
+        ...
+        ...
+    &#125;
+&#125;</code></pre></div>
+
+<p>在这里，我们手动调用 <code>sessionRegistry.registerNewSession</code> 方法，向 <code>SessionRegistryImpl</code> 中添加一条 session 记录。</p>
+<p>此刻，我们在基于上篇文章“浅谈Spring Security实现RBAC模型”中的配置类又变得有所丰富起来，这里附上过滤器和配置类的全部代码：</p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginFilter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">UsernamePasswordAuthenticationFilter</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    SessionRegistry sessionRegistry;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Authentication <span class="hljs-title">attemptAuthentication</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response)</span> <span class="hljs-keyword">throws</span> AuthenticationException </span>&#123;
+        <span class="hljs-keyword">if</span> (!request.getMethod().equals(<span class="hljs-string">&quot;POST&quot;</span>)) &#123;
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> AuthenticationServiceException(
+                    <span class="hljs-string">&quot;Authentication method not supported: &quot;</span> + request.getMethod());
+        &#125;
+        String verify_code = (String) request.getSession().getAttribute(<span class="hljs-string">&quot;verify_code&quot;</span>);
+        <span class="hljs-keyword">if</span> (request.getContentType().contains(MediaType.APPLICATION_JSON_VALUE) || request.getContentType().contains(MediaType.APPLICATION_JSON_UTF8_VALUE)) &#123;
+            Map&lt;String, String&gt; loginData = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+            <span class="hljs-keyword">try</span> &#123;
+                loginData = <span class="hljs-keyword">new</span> ObjectMapper().readValue(request.getInputStream(), Map.class);
+            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;
+            &#125;<span class="hljs-keyword">finally</span> &#123;
+                String code = loginData.get(<span class="hljs-string">&quot;code&quot;</span>);
+                checkCode(response, code, verify_code);
+            &#125;
+            String username = loginData.get(getUsernameParameter());
+            String password = loginData.get(getPasswordParameter());
+            <span class="hljs-keyword">if</span> (username == <span class="hljs-keyword">null</span>) &#123;
+                username = <span class="hljs-string">&quot;&quot;</span>;
+            &#125;
+            <span class="hljs-keyword">if</span> (password == <span class="hljs-keyword">null</span>) &#123;
+                password = <span class="hljs-string">&quot;&quot;</span>;
+            &#125;
+            username = username.trim();
+            UsernamePasswordAuthenticationToken authRequest = <span class="hljs-keyword">new</span> UsernamePasswordAuthenticationToken(
+                    username, password);
+            setDetails(request, authRequest);
+            Hr principal = <span class="hljs-keyword">new</span> Hr();
+            principal.setUsername(username);
+            sessionRegistry.registerNewSession(request.getSession(<span class="hljs-keyword">true</span>).getId(), principal);
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.getAuthenticationManager().authenticate(authRequest);
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            checkCode(response, request.getParameter(<span class="hljs-string">&quot;code&quot;</span>), verify_code);
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">super</span>.attemptAuthentication(request, response);
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">checkCode</span><span class="hljs-params">(HttpServletResponse resp, String code, String verify_code)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (code == <span class="hljs-keyword">null</span> || verify_code == <span class="hljs-keyword">null</span> || <span class="hljs-string">&quot;&quot;</span>.equals(code) || !verify_code.toLowerCase().equals(code.toLowerCase())) &#123;
+            <span class="hljs-comment">//验证码不正确</span>
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> AuthenticationServiceException(<span class="hljs-string">&quot;验证码不正确&quot;</span>);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p><strong>配置类</strong></p>
+<div class="hljs code-wrapper"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SecurityConfig</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">WebSecurityConfigurerAdapter</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    HrService hrService;
+
+    <span class="hljs-meta">@Autowired</span>
+    CustomFilterInvocationSecurityMetadataSource customFilterInvocationSecurityMetadataSource;
+
+    <span class="hljs-meta">@Autowired</span>
+    CustomUrlDecisionManager customUrlDecisionManager;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function">PasswordEncoder <span class="hljs-title">passwordEncoder</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> BCryptPasswordEncoder();
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(AuthenticationManagerBuilder auth)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        auth.userDetailsService(hrService);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(WebSecurity web)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        <span class="hljs-comment">//防止访问登录页面死循环，不用进入Security拦截</span>
+        web.ignoring().antMatchers(<span class="hljs-string">&quot;/css/**&quot;</span>, <span class="hljs-string">&quot;/js/**&quot;</span>, <span class="hljs-string">&quot;/index.html&quot;</span>, <span class="hljs-string">&quot;/img/**&quot;</span>, <span class="hljs-string">&quot;/fonts/**&quot;</span>, <span class="hljs-string">&quot;/favicon.ico&quot;</span>, <span class="hljs-string">&quot;/verifyCode&quot;</span>);
+    &#125;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function">LoginFilter <span class="hljs-title">loginFilter</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        LoginFilter loginFilter = <span class="hljs-keyword">new</span> LoginFilter();
+        loginFilter.setAuthenticationSuccessHandler((request, response, authentication) -&gt; &#123;
+                    response.setContentType(<span class="hljs-string">&quot;application/json;charset=utf-8&quot;</span>);
+                    PrintWriter out = response.getWriter();
+                    Hr hr = (Hr) authentication.getPrincipal();
+                    hr.setPassword(<span class="hljs-keyword">null</span>);
+                    RespBean ok = RespBean.ok(<span class="hljs-string">&quot;登录成功!&quot;</span>, hr);
+                    String s = <span class="hljs-keyword">new</span> ObjectMapper().writeValueAsString(ok);
+                    out.write(s);
+                    out.flush();
+                    out.close();
+                &#125;
+        );
+        loginFilter.setAuthenticationFailureHandler((request, response, exception) -&gt; &#123;
+                    response.setContentType(<span class="hljs-string">&quot;application/json;charset=utf-8&quot;</span>);
+                    PrintWriter out = response.getWriter();
+                    RespBean respBean = RespBean.error(exception.getMessage());
+                    <span class="hljs-keyword">if</span> (exception <span class="hljs-keyword">instanceof</span> LockedException) &#123;
+                        respBean.setMsg(<span class="hljs-string">&quot;账户被锁定，请联系管理员!&quot;</span>);
+                    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (exception <span class="hljs-keyword">instanceof</span> CredentialsExpiredException) &#123;
+                        respBean.setMsg(<span class="hljs-string">&quot;密码过期，请联系管理员!&quot;</span>);
+                    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (exception <span class="hljs-keyword">instanceof</span> AccountExpiredException) &#123;
+                        respBean.setMsg(<span class="hljs-string">&quot;账户过期，请联系管理员!&quot;</span>);
+                    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (exception <span class="hljs-keyword">instanceof</span> DisabledException) &#123;
+                        respBean.setMsg(<span class="hljs-string">&quot;账户被禁用，请联系管理员!&quot;</span>);
+                    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (exception <span class="hljs-keyword">instanceof</span> BadCredentialsException) &#123;
+                        respBean.setMsg(<span class="hljs-string">&quot;用户名或者密码输入错误，请重新输入!&quot;</span>);
+                    &#125;
+                    out.write(<span class="hljs-keyword">new</span> ObjectMapper().writeValueAsString(respBean));
+                    out.flush();
+                    out.close();
+                &#125;
+        );
+        loginFilter.setAuthenticationManager(authenticationManagerBean());
+        loginFilter.setFilterProcessesUrl(<span class="hljs-string">&quot;/doLogin&quot;</span>);
+        <span class="hljs-comment">//手动构建</span>
+        ConcurrentSessionControlAuthenticationStrategy sessionStrategy = <span class="hljs-keyword">new</span> ConcurrentSessionControlAuthenticationStrategy(sessionRegistry());
+        <span class="hljs-comment">//最多一个用户登录</span>
+        sessionStrategy.setMaximumSessions(<span class="hljs-number">1</span>);
+        loginFilter.setSessionAuthenticationStrategy(sessionStrategy);
+        <span class="hljs-keyword">return</span> loginFilter;
+    &#125;
+
+    <span class="hljs-comment">//用来维护会话信息的</span>
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function">SessionRegistryImpl <span class="hljs-title">sessionRegistry</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> SessionRegistryImpl();
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        http.authorizeRequests()
+                .withObjectPostProcessor(<span class="hljs-keyword">new</span> ObjectPostProcessor&lt;FilterSecurityInterceptor&gt;() &#123;
+                    <span class="hljs-meta">@Override</span>
+                    <span class="hljs-keyword">public</span> &lt;O extends FilterSecurityInterceptor&gt; <span class="hljs-function">O <span class="hljs-title">postProcess</span><span class="hljs-params">(O object)</span> </span>&#123;
+                        object.setAccessDecisionManager(customUrlDecisionManager);
+                        object.setSecurityMetadataSource(customFilterInvocationSecurityMetadataSource);
+                        <span class="hljs-keyword">return</span> object;
+                    &#125;
+                &#125;)
+                .and()
+                .logout()
+                .logoutSuccessHandler((req, resp, authentication) -&gt; &#123;
+                            resp.setContentType(<span class="hljs-string">&quot;application/json;charset=utf-8&quot;</span>);
+                            PrintWriter out = resp.getWriter();
+                            out.write(<span class="hljs-keyword">new</span> ObjectMapper().writeValueAsString(RespBean.ok(<span class="hljs-string">&quot;注销成功!&quot;</span>)));
+                            out.flush();
+                            out.close();
+                        &#125;
+                )
+                .permitAll()
+                .and()
+                .csrf().disable().exceptionHandling()
+                <span class="hljs-comment">//没有认证时，在这里处理结果，不要重定向</span>
+                .authenticationEntryPoint((req, resp, authException) -&gt; &#123;
+                            resp.setContentType(<span class="hljs-string">&quot;application/json;charset=utf-8&quot;</span>);
+                            resp.setStatus(<span class="hljs-number">401</span>);
+                            PrintWriter out = resp.getWriter();
+                            RespBean respBean = RespBean.error(<span class="hljs-string">&quot;访问失败!&quot;</span>);
+                            <span class="hljs-keyword">if</span> (authException <span class="hljs-keyword">instanceof</span> InsufficientAuthenticationException) &#123;
+                                respBean.setMsg(<span class="hljs-string">&quot;请求失败，请联系管理员!&quot;</span>);
+                            &#125;
+                            out.write(<span class="hljs-keyword">new</span> ObjectMapper().writeValueAsString(respBean));
+                            out.flush();
+                            out.close();
+                        &#125;
+                );
+        http.addFilterAt(<span class="hljs-keyword">new</span> ConcurrentSessionFilter(sessionRegistry(), event -&gt; &#123;
+            HttpServletResponse resp = event.getResponse();
+            resp.setContentType(<span class="hljs-string">&quot;application/json;charset=utf-8&quot;</span>);
+            resp.setStatus(<span class="hljs-number">401</span>);
+            PrintWriter out = resp.getWriter();
+            out.write(<span class="hljs-keyword">new</span> ObjectMapper().writeValueAsString(RespBean.error(<span class="hljs-string">&quot;您已在另一台设备登录，本次登录已下线!&quot;</span>)));
+            out.flush();
+            out.close();
+        &#125;), ConcurrentSessionFilter.class);
+        http.addFilterAt(loginFilter(), UsernamePasswordAuthenticationFilter.class);
+    &#125;
+&#125;</code></pre></div>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/">技术分享</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring-Security/">Spring Security</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/09/%E6%B5%85%E8%B0%88Spring%20Security%E5%AE%9E%E7%8E%B0RBAC%E6%A8%A1%E5%9E%8B/">
+                        <span class="hidden-mobile">浅谈Spring Security实现RBAC模型</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+              <!-- Comments -->
+              <article class="comments" id="comments" lazyload>
+                
+                  
+                
+                
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js', function () {
+        new Valine({
+          el: "#valine",
+          app_id: "Q8utolFFXQsi71pQY6bCltkI-gzGzoHsz",
+          app_key: "x4RAlPOpmFX9HdGyI6MLoCGn",
+          placeholder: "说点什么....",
+          path: window.location.pathname,
+          avatar: "monsterid",
+          meta: ["nick","mail","link"],
+          pageSize: "12",
+          lang: "zh-CN",
+          highlight: true,
+          recordIP: true,
+          serverURLs: "",
+        });
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+              </article>
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- LeanCloud 统计PV -->
+        <span id="leancloud-site-pv-container" style="display: none">
+            总访问量 
+            <span id="leancloud-site-pv"></span>
+             次
+          </span>
+      
+      
+        <!-- LeanCloud 统计UV -->
+        <span id="leancloud-site-uv-container" style="display: none">
+            总访客数 
+            <span id="leancloud-site-uv"></span>
+             人
+          </span>
+      
+
+    
+  </div>
+
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.2/dist/tocbot.min.js" ></script>
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+
+  <script defer src="/js/leancloud.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      $('#local-search-input').on('click', function() {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      });
+      $('#modalSearch').on('shown.bs.modal', function() {
+        $('#local-search-input').focus();
+      });
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
